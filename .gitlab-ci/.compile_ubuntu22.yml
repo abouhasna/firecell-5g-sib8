@@ -1,0 +1,226 @@
+---
+compile-eNB-usrp-u22:
+  stage: compile_u22
+  retry: 2
+  tags: [dind, ubuntu22, $U22_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+  resource_group: compile_u22
+  needs: []
+
+  script:
+    # See https://gitlab.com/firecell/rdsubscription/sequansrd/-/tree/3GPP_TTCN_System_Simulator/FC-Scripts
+    - echo "CI_PROJECT_DIR = $CI_PROJECT_DIR"
+    - echo "Compiling eNB"
+    - mkdir ./cmake_targets/log
+    - ./cmake_targets/build_oai  --eNB -w USRP
+    - echo "Compiling eNB done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+    # when: on_failure
+    expire_in: 15 days
+    name: compile-eNB
+  allow_failure: false
+
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_USRP != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_U22\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_U22/
+
+
+# ---------------------------- compile gNB ---------------------------------
+compile-gNB-usrp-u22:
+  stage: compile_u22
+  retry: 2
+  tags: [dind, ubuntu22, $U22_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+  resource_group: compile_u22
+  needs: []
+  script:
+    # See https://gitlab.com/firecell/rdsubscription/sequansrd/-/tree/3GPP_TTCN_System_Simulator/FC-Scripts
+    - echo "CI_PROJECT_DIR = $CI_PROJECT_DIR"
+    - echo "Compiling gNB"
+    - mkdir ./cmake_targets/log
+    - ./cmake_targets/build_oai  --gNB -w USRP
+    - echo "Compiling gNB done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/build_oai
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+
+    # when: on_failure
+    expire_in: 15 days
+    name: compile-gNB
+
+  allow_failure: false
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_USRP != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_U22\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_U22/
+
+
+
+compile-gNB-aw2s-u22:
+  stage: compile_u22
+  retry: 2
+  tags: [dind, ubuntu22, $U22_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+  resource_group: compile_u22  
+  needs: []
+  script:
+    # See https://gitlab.com/firecell/rdsubscription/sequansrd/-/tree/3GPP_TTCN_System_Simulator/FC-Scripts
+    - echo "CI_PROJECT_DIR = $CI_PROJECT_DIR"
+    - echo "Compiling gNB"
+    - mkdir ./cmake_targets/log
+    - ./cmake_targets/build_oai  --gNB -w PANTHER
+    - echo "Compiling gNB done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/build_oai
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+
+    # when: on_failure
+    expire_in: 15 days
+    name: compile-gNB
+
+  allow_failure: false
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_AW2S != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_U22\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_U22/
+
+
+
+compile-gNB-simu-u22:
+  stage: compile_u22
+  retry: 2
+  tags: [dind, ubuntu22, $U22_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+  resource_group: compile_u22  
+  needs: []
+  script:
+    # See https://gitlab.com/firecell/rdsubscription/sequansrd/-/tree/3GPP_TTCN_System_Simulator/FC-Scripts
+    - echo "CI_PROJECT_DIR = $CI_PROJECT_DIR"
+    - echo "Compiling gNB"
+    - mkdir ./cmake_targets/log
+    - ./cmake_targets/build_oai  --gNB -w SIMU
+    - echo "Compiling gNB done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/build_oai
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+
+    # when: on_failure
+    expire_in: 15 days
+    name: compile-gNB
+
+  allow_failure: false
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_SIMU != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_U22\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_U22/
+
+
+
+# ---------------------------- compile nrUE ---------------------------------
+compile-nrUE-simu-u22:
+  stage: compile_u22
+  retry: 2
+  tags: [dind, ubuntu22, $U22_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+  resource_group: compile_u22  
+  needs: []
+  script:
+    # See https://gitlab.com/firecell/rdsubscription/sequansrd/-/tree/3GPP_TTCN_System_Simulator/FC-Scripts
+    - echo "CI_PROJECT_DIR = $CI_PROJECT_DIR"
+    - echo "Compiling nrUE"
+    - mkdir ./cmake_targets/log
+    - ./cmake_targets/build_oai  --nrUE -w SIMU
+    - echo "Compiling nrUE done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/build_oai
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+    # when: on_failure
+    expire_in: 15 days
+    name: compile-nrUE
+  allow_failure: false
+
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $COMPILE_NRUE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_SIMU != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_U22\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_U22/
+

@@ -1,0 +1,271 @@
+---
+scan_asserts:
+  stage: scan
+  retry: 1
+  tags: [dind, ubuntu24, gcp]
+  image: python:3.12-bullseye
+  needs: []
+  
+  script:
+    - echo "Running assert static code analysis"
+    - python3 --version
+    - pwd
+    - ls -la
+    - ls -la ci-scripts/scan
+    - pip install pyyaml
+    - pip install colorama
+    - pip install junit2html
+    - ci-scripts/scan/scan_asserts.py -ci -c ci-scripts/scan/config_scan_asserts.yml -o scan_asserts-junit.xml -d
+    - junit2html scan_asserts-junit.xml scan_asserts-junit.html
+    - echo "Running scan asserts code analysis is done !"
+
+  rules:
+    - if: $SCAN != 'true'
+      when: never 
+
+    - if: $SCAN_ASSERTS != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[SCAN_ASSERTS\]/
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /SCAN_ASSERTS/
+
+  artifacts:
+    paths:
+      - scan_asserts-junit.xml
+      - scan_asserts-junit.html
+    reports:
+      junit:
+        - scan_asserts-junit.xml
+    expire_in: 15 days
+    when: always
+    expose_as: 'scan_asserts'
+    name: 'scan_asserts'
+
+
+scan_new_asserts_since_last_release:
+  stage: scan
+  retry: 1
+  tags: [dind, ubuntu24, gcp]
+  image: python:3.12-bullseye
+  needs: []
+  
+  script:
+    - echo "Running new asserts since last release static code analysis"
+    - python3 --version
+    - pwd
+    - ls -la
+    - ls -la ci-scripts/scan
+    - pip install pyyaml
+    - pip install colorama
+    - pip install junit2html
+    - ci-scripts/scan/scan_new_asserts_from_last_release.py -ci -c ci-scripts/scan/config_scan_new_asserts_from_last_release.yml -o scan_new_asserts_since_last_release-junit.xml -d
+    - junit2html scan_new_asserts_since_last_release-junit.xml scan_new_asserts_since_last_release-junit.html
+    - echo "Running scan new asserts since last release code analysis is done !"
+  rules:
+    - if: $SCAN != 'true'
+      when: never 
+
+    - if: $SCAN_ASSERTS != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[SCAN_ASSERTS\]/
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /SCAN_ASSERTS/
+
+  artifacts:
+    paths:
+      - scan_new_asserts_since_last_release-junit.xml
+      - scan_new_asserts_since_last_release-junit.html
+    reports:
+      junit:
+        - scan_new_asserts_since_last_release-junit.xml
+    expire_in: 15 days
+    when: always
+
+scan_new_asserts_since_last_release_split_by_folders:
+  stage: scan
+  retry: 1
+  tags: [dind, ubuntu24, gcp]
+  image: python:3.12-bullseye
+  needs: []
+  
+  script:
+    - echo "Running new asserts since last release static code analysis"
+    - python3 --version
+    - pwd
+    - ls -la
+    - ls -la ci-scripts/scan
+    - pip install pyyaml
+    - pip install colorama
+    - pip install junit2html
+    - ci-scripts/scan/scan_new_asserts_from_last_release.py -s -ci -c ci-scripts/scan/config_scan_new_asserts_from_last_release.yml -o scan_new_asserts_since_last_release-junit.xml -d
+    - junit2html scan_new_asserts_since_last_release-junit_split.xml scan_new_asserts_since_last_release-junit_split.html
+    - echo "Running scan new asserts since last release code analysis is done !"
+  rules:
+    - if: $SCAN != 'true'
+      when: never 
+
+    - if: $SCAN_ASSERTS != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[SCAN_ASSERTS\]/
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /SCAN_ASSERTS/
+
+  artifacts:
+    paths:
+      - scan_new_asserts_since_last_release-junit_split.xml
+      - scan_new_asserts_since_last_release-junit_split.html
+    reports:
+      junit:
+        - scan_new_asserts_since_last_release-junit_split.xml
+    expire_in: 15 days
+    when: always
+    # expose_as: 'scan_new_asserts_since_last_release'
+    # name: 'scan_new_asserts_since_last_release'
+
+plot_asserts_releases_evolution_chart:
+  stage: scan
+  retry: 1
+  tags: [dind, ubuntu24, gcp]
+  image: python:3.12-bullseye
+  needs: []
+  
+  script:
+    - echo "plot asserts releases evolution"
+    - which python
+    - which python3
+    - python3 --version
+    - pwd
+    - ls -la
+    - pip install pyyaml
+    - pip install colorama
+    - pip uninstall pandas
+    - pip install pandas
+    - pip install matplotlib
+    - pip install google-cloud-storage
+    - pip list
+    - python3 ci-scripts/scan/plot_asserts_in_out.py -ci -c ci-scripts/scan/config_plot_asserts_in_out.yml -o asserts_in_out.csv
+    - echo "asserts chart has been created !"
+
+  rules:
+    - if: $SCAN != 'true'
+      when: never 
+
+    - if: $SCAN_ASSERTS != 'true'
+      when: never
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_COMMIT_MESSAGE =~ /\[CI assert\].*/
+
+  artifacts:
+    paths:
+      - asserts_in_out.csv
+      - asserts_in_out.png
+
+    expire_in: 15 days
+    when: always
+    # expose_as: 'asserts_in_out'
+    # name: 'asserts_in_out'
+
+plot_asserts_distribution_since_last_previous_release_tag_bar_chart:
+  stage: scan
+  retry: 1
+  tags: [dind, ubuntu24, gcp]
+  image: python:3.12-bullseye
+  needs: []
+  
+  script:
+    - echo "Running plot asserts distribution since last previous release tag"
+    - which python
+    - which python3
+    - python3 --version
+    - pwd
+    - ls -la
+    - pip install pyyaml
+    - pip install colorama
+    - pip uninstall pandas
+    - pip install pandas
+    - pip install matplotlib
+    - pip install google-cloud-storage
+    - pip list
+    - python3 ci-scripts/scan/plot_asserts_distribution_since_last_previous_release_tag.py -p -ci -c ci-scripts/scan/config_plot_asserts_distribution_since_last_previous_release_tag.yml -o asserts_distribution_since_last_previous_release_tag.csv
+    - echo "asserts chart has been created !"
+
+  rules:
+    - if: $SCAN != 'true'
+      when: never 
+
+    - if: $SCAN_ASSERTS != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[SCAN_ASSERTS\]/
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /SCAN_ASSERTS/
+
+  artifacts:
+    paths:
+      - asserts_distribution_since_last_previous_release_tag.csv
+      - asserts_distribution_since_last_previous_release_tag.png
+
+    expire_in: 15 days
+    when: always
+
+plot_asserts_distribution_since_last_previous_release_tag_horizontal_bar_chart:
+  stage: scan
+  retry: 1
+  tags: [dind, ubuntu24, gcp]
+  image: python:3.12-bullseye
+  needs: []
+  
+  script:
+    - echo "Running plot asserts distribution since last previous release tag"
+    - which python
+    - which python3
+    - python3 --version
+    - pwd
+    - ls -la
+    - pip install pyyaml
+    - pip install colorama
+    - pip uninstall pandas
+    - pip install pandas
+    - pip install matplotlib
+    - pip install google-cloud-storage
+    - pip list
+    - python3 ci-scripts/scan/plot_asserts_distribution_since_last_previous_release_tag.py -p -pl -ci -c ci-scripts/scan/config_plot_asserts_distribution_since_last_previous_release_tag.yml -o h_asserts_distribution_since_last_previous_release_tag.csv
+    - echo "asserts chart has been created !"
+
+  rules:
+    - if: $SCAN != 'true'
+      when: never 
+
+    - if: $SCAN_ASSERTS != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[SCAN_ASSERTS\]/
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /SCAN_ASSERTS/
+
+  artifacts:
+    paths:
+      - h_asserts_distribution_since_last_previous_release_tag.csv
+      - h_asserts_distribution_since_last_previous_release_tag.png
+
+    expire_in: 15 days
+    when: always
+    # expose_as: 'asserts_in_out'
+    # name: 'asserts_in_out'    
+

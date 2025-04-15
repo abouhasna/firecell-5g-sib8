@@ -1,0 +1,203 @@
+---
+build-image-base-ubuntu20:
+  stage: build-docker-images
+  needs:
+    - job: delete_base_image_ubuntu20
+  allow_failure: true
+  retry: 1
+  tags: [shell, ubuntu20, $U20_BUILD_TAG]
+  script:
+    # - docker login regristry.gitlab.com
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+
+    - docker build -t $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.ubuntu20:$DOCKER_IMAGE_VERSION -f ./docker/Dockerfile.fc.base.ubuntu20 .
+    - echo " build finished"
+    - docker push $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.ubuntu20:$DOCKER_IMAGE_VERSION
+
+  rules:
+    - if: $BUILD_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_UBUNTU20 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+
+      
+build-image-build-ubuntu20:
+  stage: build-docker-images
+  needs:
+    - job: build-image-base-ubuntu20
+  retry: 1
+  # retry: 2
+  tags: [shell, ubuntu20, $U20_BUILD_TAG] 
+  script:
+    - docker image list
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+
+    - ls ./docker/Dockerfile.fc.base.ubuntu20
+    - docker build -t $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu20:$DOCKER_IMAGE_VERSION -f ./docker/Dockerfile.fc.build.ubuntu20 .
+    - echo " build finished"
+    - docker push $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu20:$DOCKER_IMAGE_VERSION
+  rules:
+    - if: $BUILD_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BUILD_IMAGE_UBUNTU20 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+
+
+build-image-base-ubuntu22:
+  stage: build-docker-images
+  needs:
+    - job: delete_base_image_ubuntu22
+  allow_failure: true  
+  retry: 1
+  tags: [shell, ubuntu22, $U22_BUILD_TAG]
+  script:
+    # - docker login regristry.gitlab.com
+    - echo "$DOCKER_IMAGE_VERSION"
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker build -t $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.ubuntu22:$DOCKER_IMAGE_VERSION -f ./docker/Dockerfile.fc.base.ubuntu22 .
+    - echo " build finished"
+    - docker push $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.ubuntu22:$DOCKER_IMAGE_VERSION
+
+  rules:
+    - if: $BUILD_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_UBUNTU22 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+
+
+build-image-build-ubuntu22:
+  stage: build-docker-images
+  needs:
+    - job: build-image-base-ubuntu22
+  retry: 1
+  # retry: 2
+  tags: [shell, ubuntu22, $U22_BUILD_TAG]
+  script:
+    - docker image list
+    - echo "$DOCKER_IMAGE_VERSION"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - ls ./docker/Dockerfile.fc.base.ubuntu22
+    - docker build -t $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION -f ./docker/Dockerfile.fc.build.ubuntu22 .
+    - echo " build finished"
+    - docker push $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+
+  rules:
+    - if: $BUILD_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BUILD_IMAGE_UBUNTU22 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+
+
+# ----------------------------------- oran docker images
+build-image-base-oran:
+  stage: build-docker-images
+  needs:
+    - job: delete_base_image_oran
+    - job: build-image-build-ubuntu22
+  allow_failure: true
+  retry: 1
+  tags: [shell, ubuntu22, $ORAN_BUILD_TAG]
+  script:
+    # - docker login regristry.gitlab.com
+    - echo "$DOCKER_IMAGE_VERSION"
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker build -t $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.oran:$DOCKER_IMAGE_VERSION -f ./docker/Dockerfile.fc.base.oran .
+    - echo " build finished"
+    - docker push $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.oran:$DOCKER_IMAGE_VERSION
+
+  rules:
+    - if: $BUILD_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_ORAN != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+
+build-image-build-oran:
+  stage: build-docker-images
+  needs:
+    - job: build-image-base-oran
+  retry: 1
+  # retry: 2
+  tags: [shell, ubuntu22, $ORAN_BUILD_TAG]
+  script:
+    - docker image list
+    - echo "$DOCKER_IMAGE_VERSION"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - ls ./docker/Dockerfile.fc.base.oran
+    - docker build -t $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.oran:$DOCKER_IMAGE_VERSION -f ./docker/Dockerfile.fc.build.oran .
+    - echo " build finished"
+    - docker push $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.oran:$DOCKER_IMAGE_VERSION
+
+  rules:
+    - if: $BUILD_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BUILD_IMAGE_ORAN != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true

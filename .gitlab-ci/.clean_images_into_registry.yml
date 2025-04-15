@@ -1,0 +1,205 @@
+---
+# --------------------------------------- delete ubuntu20 docker images on container registry
+delete_build_image_ubuntu20:
+  stage: clean-docker-images
+  tags: [dind, $U20_BUILD_TAG]
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu20:$DOCKER_IMAGE_VERSION
+    REGCTL_VERSION: v0.6.1
+  rules:
+    - if: $CLEAN_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_UBUNTU20 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+  image: alpine:latest
+  script:
+    - apk update
+    - apk add curl
+    - curl --fail-with-body --location "https://github.com/regclient/regclient/releases/download/${REGCTL_VERSION}/regctl-linux-amd64" > /usr/bin/regctl
+    - chmod 755 /usr/bin/regctl
+    - regctl registry login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - regctl tag ls $IMAGE_TAG
+    - regctl tag rm $IMAGE_TAG
+
+
+delete_base_image_ubuntu20:
+  stage: clean-docker-images
+  tags: [dind, $U20_BUILD_TAG]
+  needs: 
+    - delete_build_image_ubuntu20
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.ubuntu20:$DOCKER_IMAGE_VERSION
+    REGCTL_VERSION: v0.6.1
+  rules:
+    - if: $CLEAN_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_UBUNTU20 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+  image: alpine:latest
+  script:
+    - apk update
+    - apk add curl
+    - curl --fail-with-body --location "https://github.com/regclient/regclient/releases/download/${REGCTL_VERSION}/regctl-linux-amd64" > /usr/bin/regctl
+    - chmod 755 /usr/bin/regctl
+    - regctl registry login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - regctl tag ls $IMAGE_TAG
+    - regctl tag rm $IMAGE_TAG
+
+# --------------------------------------- delete ubuntu22 docker images on container registry
+delete_build_image_ubuntu22:
+  tags: [dind, $U22_BUILD_TAG]
+  stage: clean-docker-images
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+    REGCTL_VERSION: v0.6.1
+  rules:
+    - if: $CLEAN_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_UBUNTU22 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+  image: alpine:latest
+  script:
+    - apk update
+    - apk add curl
+    - curl --fail-with-body --location "https://github.com/regclient/regclient/releases/download/${REGCTL_VERSION}/regctl-linux-amd64" > /usr/bin/regctl
+    - chmod 755 /usr/bin/regctl
+    - regctl registry login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - regctl tag ls $IMAGE_TAG
+    - regctl tag rm $IMAGE_TAG
+
+
+delete_base_image_ubuntu22:
+  stage: clean-docker-images
+  tags: [dind, $U22_BUILD_TAG]
+  needs: 
+    - delete_build_image_ubuntu22
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.ubuntu22:$DOCKER_IMAGE_VERSION
+    REGCTL_VERSION: v0.6.1
+  rules:
+    - if: $CLEAN_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_UBUNTU22 != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+  image: alpine:latest
+  script:
+    - apk update
+    - apk add curl
+    - curl --fail-with-body --location "https://github.com/regclient/regclient/releases/download/${REGCTL_VERSION}/regctl-linux-amd64" > /usr/bin/regctl
+    - chmod 755 /usr/bin/regctl
+    - regctl registry login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - regctl tag ls $IMAGE_TAG
+    - regctl tag rm $IMAGE_TAG
+
+# --------------------------------------- delete oran docker images on container registry
+delete_build_image_oran:
+  tags: [dind, $U22_BUILD_TAG]
+  stage: clean-docker-images
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.oran:$DOCKER_IMAGE_VERSION
+    REGCTL_VERSION: v0.6.1
+  rules:
+    - if: $CLEAN_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_ORAN != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+  image: alpine:latest
+  script:
+    - apk update
+    - apk add curl
+    - curl --fail-with-body --location "https://github.com/regclient/regclient/releases/download/${REGCTL_VERSION}/regctl-linux-amd64" > /usr/bin/regctl
+    - chmod 755 /usr/bin/regctl
+    - regctl registry login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - regctl tag ls $IMAGE_TAG
+    - regctl tag rm $IMAGE_TAG
+
+
+delete_base_image_oran:
+  stage: clean-docker-images
+  tags: [dind, $U22_BUILD_TAG]
+  needs: 
+    - delete_build_image_oran
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.base.oran:$DOCKER_IMAGE_VERSION
+    REGCTL_VERSION: v0.6.1
+  rules:
+    - if: $CLEAN_DOCKER_IMAGES != 'true'
+      when: never 
+
+    - if: $BUILD_BASE_IMAGE_ORAN != 'true'
+      when: never 
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_COMMIT_MESSAGE =~ /\[BUILD_DOCKER_IMAGES\]/
+      allow_failure: true
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /BUILD_DOCKER_IMAGES/
+      allow_failure: true
+
+
+  image: alpine:latest
+  script:
+    - apk update
+    - apk add curl
+    - curl --fail-with-body --location "https://github.com/regclient/regclient/releases/download/${REGCTL_VERSION}/regctl-linux-amd64" > /usr/bin/regctl
+    - chmod 755 /usr/bin/regctl
+    - regctl registry login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - regctl tag ls $IMAGE_TAG
+    - regctl tag rm $IMAGE_TAG

@@ -1,0 +1,297 @@
+---
+cppcheck-eNB-gNB-ubuntu22:
+  stage: cppcheck_u22
+  retry: 1
+  tags: [dind, ubuntu22, $U22_CPPCHECK_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+  needs: []
+    # - "compile-eNB-usrp-ubuntu22"
+    # - "compile-gNB-usrp-ubuntu22"
+    # - "compile-gNB-aw2s-ubuntu22"
+    # - "compile-gNB-simu-ubuntu22"
+    # - "compile-nrUE-simu-ubuntu22"
+
+    
+  script:
+    - pwd
+    - echo "Running eNB and gNB static code analysis"
+    - echo ""
+    - export CPU_COUNT=$(nproc --all)
+    # - export CPU_COUNT=$(( $(nproc --all) / 4 ))
+    # - export CPU_COUNT=1
+    # - cppcheck --enable=all -j $CPU_COUNT --suppress=missingIncludeSystem FirecellRD/components/RAN --xml --output-file=cppcheck-eNB-gNB.xml
+    - cppcheck --enable=all -j $CPU_COUNT --suppress=missingIncludeSystem . --xml --output-file=cppcheck-eNB-gNB.xml
+    - cppcheck-htmlreport --title SequansRD Proxy --file cppcheck-eNB-gNB.xml --report-dir cppcheck-eNB-gNB-result
+    - tar -czvf  cppcheck-eNB-gNB-result.tar.gz cppcheck-eNB-gNB-result
+    - cppcheck_junit cppcheck-eNB-gNB.xml cppcheck-eNB-gNB-junit.xml
+    - echo "Running eNB and gNB static code analysis is done !"
+
+  rules:
+    - if: $STATIC_CODE_ANALASIS != 'true'
+      when: never 
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    # - if: $CI_COMMIT_BRANCH != 'fcdevelop'
+    #   when: never
+
+    - if: $CI_COMMIT_MESSAGE =~ /\[CI\].*/
+
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+
+    - if: $CI_COMMIT_TAG
+      when: never
+  
+    - if: $CI_COMMIT_MESSAGE && $CI_COMMIT_MESSAGE !~ /\[CI\].*/
+
+    # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    #   when: manual
+    #   allow_failure: false
+
+
+    # - if: $CI_PIPELINE_SOURCE == "schedule"
+
+    # - if: $CI_COMMIT_TAG =~ /v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/
+      # when: always 
+
+
+  artifacts:
+    paths:
+      - cppcheck-eNB-gNB-result.tar.gz
+      - cppcheck-eNB-gNB-junit.xml
+      - cppcheck-eNB-gNB.xml
+    reports:
+      junit: cppcheck-eNB-gNB-junit.xml
+    expire_in: 15 days
+    when: always
+    name: cppcheck-eNB-gNB
+    
+  # needs:
+  #   - job: compile-eNB-ubuntu22
+  #   - job: compile-gNB-ubuntu22
+  #     artifacts: false
+  # when: on_success
+
+cppcheck-nrUE-ubuntu22:
+  stage: cppcheck_u22
+  retry: 1
+  tags: [dind, ubuntu22, $U22_CPPCHECK_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.ubuntu22:$DOCKER_IMAGE_VERSION
+  needs: []
+    # - "compile-eNB-usrp-ubuntu22"
+    # - "compile-gNB-usrp-ubuntu22"
+    # - "compile-gNB-aw2s-ubuntu22"
+    # - "compile-gNB-simu-ubuntu22"
+    # - "compile-nrUE-simu-ubuntu22"
+  
+  script:
+    - pwd
+    - echo "Running nrUE static code analysis"
+    - echo ""
+    - export CPU_COUNT=$(nproc --all)
+    # - export CPU_COUNT=$(( $(nproc --all) / 4 ))
+    # - export CPU_COUNT=1
+    # - cppcheck --enable=all -j $CPU_COUNT --suppress=missingIncludeSystem FirecellRD/components/RAN --xml --output-file=cppcheck-eNB-gNB.xml
+    - cppcheck --enable=all -j $CPU_COUNT --suppress=missingIncludeSystem . --xml --output-file=cppcheck-nrUE.xml
+    - cppcheck-htmlreport --title OAI5G-RAN nrUE --file cppcheck-nrUE.xml --report-dir cppcheck-nrUE-result
+    - tar -czvf  cppcheck-nrUE-result.tar.gz cppcheck-nrUE-result
+    - cppcheck_junit cppcheck-nrUE.xml cppcheck-nrUE-junit.xml
+    - echo "Running nrUE static code analysis is done !"
+
+  rules:
+    - if: $STATIC_CODE_ANALASIS != 'true'
+      when: never 
+
+    # - if: $COMPILE_NRUE != 'true'
+    #   when: never 
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $CI_COMMIT_MESSAGE =~ /\[CI\].*/
+
+    - if: $CI_COMMIT_MESSAGE !~ /\[CI\].*/ && $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_COMMIT_MESSAGE && $CI_COMMIT_MESSAGE !~ /\[CI\].*/
+
+      # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      #   when: manual
+      #   allow_failure: false
+
+      # - if: $CI_PIPELINE_SOURCE == "schedule"
+
+      # - if: $CI_COMMIT_TAG =~ /v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/
+        # when: always
+
+
+  artifacts:
+    paths:
+      - cppcheck-nrUE-result.tar.gz
+      - cppcheck-nrUE-junit.xml
+      - cppcheck-nrUE.xml
+    reports:
+      junit: cppcheck-eNB-gNB-junit.xml
+    expire_in: 15 days
+    when: always
+    name: cppcheck-nrue
+  # needs:
+  #   - job: compile-nrUE-ubuntu22
+  #     artifacts: false
+  when: on_success
+
+# analyse_cppcheck-proxy-ubuntu22:
+#   stage: cppcheck_u22
+#   retry: 1
+#   tags: [dind, $U22_CPPCHECK_TAG]
+#   image: python:3.11-bullseye
+#   script:
+#     - ls
+#     - pip install junitparser junit2html cppcheck-junit==2.2.0
+#     - python3 $CI_PROJECT_DIR/ci-scripts/analyse_cppcheck_results.py
+#       cppcheck-proxy.xml $CI_PROJECT_DIR/ci-scripts/cppcheck-proxy_allowed_errors.xml cppcheck-proxy_clean.xml
+#     - cppcheck_junit cppcheck-proxy_clean.xml cppcheck-proxy_clean-junit.xml
+#     - junit2html cppcheck-proxy_clean-junit.xml cppcheck-proxy_clean-junit.html
+#     # check if new errors were added. If so, fail
+#     # - python3 $CI_PROJECT_DIR/ci-scripts/verify_cppcheck_new_errors.py cppcheck-proxy_clean-junit.xml
+#   artifacts:
+#     paths:
+#       - cppcheck-proxy_clean-junit.xml
+#       - cppcheck-proxy_clean-junit.html
+#     reports:
+#       junit:
+#         - cppcheck-proxy_clean-junit.xml
+#     expire_in: 3 days
+#     when: always
+#     expose_as: 'analyse_cppcheck'
+#     name: 'analyse_cppcheck'
+#   dependencies:
+#     - cppcheck-proxy-ubuntu22
+#   needs:
+#     - job: cppcheck-proxy-ubuntu22
+#   when: on_success
+
+analyse_cppcheck-eNB-gNB-ubuntu22:
+  stage: cppcheck_u22
+  retry: 1
+  tags: [dind, ubuntu22, $U22_CPPCHECK_TAG]
+  image: python:3.11-bullseye
+
+  script:
+    - pwd
+    - pip install junitparser junit2html cppcheck-junit==2.2.0
+    - python3 $CI_PROJECT_DIR/ci-scripts/cppcheck/analyse_cppcheck_results.py cppcheck-eNB-gNB.xml $CI_PROJECT_DIR/ci-scripts/cppcheck/cppcheck-eNB-gNB_allowed_errors.xml cppcheck-eNB-gNB_clean.xml
+    - cppcheck_junit cppcheck-eNB-gNB_clean.xml cppcheck-eNB-gNB_clean-junit.xml
+    - junit2html cppcheck-eNB-gNB_clean-junit.xml cppcheck-eNB-gNB_clean-junit.html
+    # check if new errors were added. If so, fail
+    # - python3 $CI_PROJECT_DIR/ci-scripts/verify_cppcheck_new_errors.py cppcheck-eNB-gNB_clean-junit.xml
+  rules:
+    - if: $ANALYSE_CPPCHECK != 'true'
+      when: never 
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $CI_COMMIT_MESSAGE =~ /\[CI\].*/
+
+    - if: $CI_COMMIT_MESSAGE !~ /\[CI\].*/ && $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_COMMIT_MESSAGE && $CI_COMMIT_MESSAGE !~ /\[CI\].*/
+
+      # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      #   when: manual
+      #   allow_failure: false
+
+      # - if: $CI_PIPELINE_SOURCE == "schedule"
+
+      # - if: $CI_COMMIT_TAG =~ /v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/
+        # when: always
+
+  artifacts:
+    paths:
+      - cppcheck-eNB-gNB_clean-junit.xml
+      - cppcheck-eNB-gNB_clean-junit.html
+    reports:
+      junit:
+        - cppcheck-eNB-gNB_clean-junit.xml
+    expire_in: 3 days
+    when: always
+    expose_as: 'analyse_cppcheck'
+    name: 'analyse_cppcheck'
+  dependencies:
+    - cppcheck-eNB-gNB-ubuntu22
+  needs:
+    - job: cppcheck-eNB-gNB-ubuntu22
+  when: on_success
+
+analyse_cppcheck-nrUE-ubuntu22:
+  stage: cppcheck_u22
+  retry: 1
+  tags: [dind, ubuntu22, $U22_CPPCHECK_TAG]
+  image: python:3.11-bullseye
+  script:
+    - pwd
+    - ls
+    - pip install junitparser junit2html cppcheck-junit==2.2.0
+    # - pip install --default-timeout=100 junitparser junit2html cppcheck-junit==2.2.0
+    - python3 $CI_PROJECT_DIR/ci-scripts/cppcheck/analyse_cppcheck_results.py cppcheck-nrUE.xml $CI_PROJECT_DIR/ci-scripts/cppcheck/cppcheck-nrUE_allowed_errors.xml cppcheck-nrUE_clean.xml
+    - cppcheck_junit cppcheck-nrUE_clean.xml cppcheck-nrUE_clean-junit.xml
+    - junit2html cppcheck-nrUE_clean-junit.xml cppcheck-nrUE_clean-junit.html
+    #check if new errors were added. If so, fail
+    # - python3 $CI_PROJECT_DIR/ci-scripts/verify_cppcheck_new_errors.py cppcheck-eNB-gNB_clean-junit.xml
+  rules:
+    - if: $ANALYSE_CPPCHECK != 'true'
+      when: never 
+
+    # - if: $COMPILE_NRUE != 'true'
+    #   when: never 
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $CI_COMMIT_MESSAGE =~ /\[CI\].*/
+
+    - if: $CI_COMMIT_MESSAGE !~ /\[CI\].*/ && $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: $CI_COMMIT_MESSAGE && $CI_COMMIT_MESSAGE !~ /\[CI\].*/
+
+      # - if: $CI_PIPELINE_SOURCE == "merge_request_event" 
+      #   when: manual
+      #   allow_failure: false
+
+      # - if: $CI_PIPELINE_SOURCE == "schedule"
+
+      # - if: $CI_COMMIT_TAG =~ /v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/
+        # when: always
+
+  artifacts:
+    paths:
+      - cppcheck-nrUE_clean-junit.xml
+      - cppcheck-nrUE_clean-junit.html
+    reports:
+      junit:
+        - cppcheck-nrUE_clean-junit.xml
+    expire_in: 3 days
+    when: always
+    expose_as: 'analyse_cppcheck'
+    name: 'analyse_cppcheck'
+  dependencies:
+    - cppcheck-nrUE-ubuntu22
+  needs:
+    - job: cppcheck-nrUE-ubuntu22
+  when: on_success

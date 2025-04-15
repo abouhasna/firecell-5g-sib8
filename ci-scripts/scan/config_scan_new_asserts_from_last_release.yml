@@ -1,0 +1,34 @@
+get_tags_command: "git tag | grep -e '^v[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+'"
+command_git_diff: "cd <repos_path> && git diff <tag>"
+major_release_indice: 2
+
+files_to_exclude: []
+
+classify_folders:
+  - openair1/
+  - openair2/
+  - openair3/
+
+extensions_accepted:
+  - '.c'
+  - '.cpp'
+  - '.h'
+  - '.hpp'
+
+assert_patterns:
+  - '[+][ ]*assert[ ]*\('
+  - '[+][ ]*DevAssert[ ]*\('
+  - '[+][ ]*AssertFatal[ ]*\('
+  - '[+][ ]*AssertError[ ]*\('
+  - '[+][ ]*MyAssert[ ]*\('
+  - '[+][ ]*static_assert[ ]*\('
+  - '[+][ ]*OPENSSL_assert[ ]*\('
+
+diff_patterns_to_exclude:
+  - '^diff --git '
+  - '^index '
+  - '^-[ ]*'
+  - '^-$'
+  - '^[+]- '
+  - '^-[+] '
+

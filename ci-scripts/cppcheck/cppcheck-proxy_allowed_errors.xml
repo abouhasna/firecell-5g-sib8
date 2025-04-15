@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="1.90"/>
+    <errors>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;argv&apos; can be reduced." verbose="The scope of the variable &apos;argv&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/integration_tests/main.cpp" line="31" column="14"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;argv&apos; can be reduced." verbose="The scope of the variable &apos;argv&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/integration_tests/main.cpp" line="57" column="15"/>
+        </error>
+        <error id="memleak" severity="error" msg="Memory leak: _this" verbose="Memory leak: _this" cwe="401">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/src/pnf_p7_interface.c" line="48" column="2"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/fapi_stub.cpp" line="334" column="33"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;last_tv_usec&apos; is assigned a value that is never used." verbose="Variable &apos;last_tv_usec&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/fapi_stub.cpp" line="256" column="25"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;last_tv_sec&apos; is assigned a value that is never used." verbose="Variable &apos;last_tv_sec&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/fapi_stub.cpp" line="257" column="24"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;instance&apos; is assigned a value that is never used." verbose="Variable &apos;instance&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/fapi_stub.cpp" line="517" column="31"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;instance&apos; is assigned a value that is never used." verbose="Variable &apos;instance&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/fapi_stub.cpp" line="521" column="31"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;header_buffer&apos; can be reduced." verbose="The scope of the variable &apos;header_buffer&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/src/pnf.c" line="2005" column="10"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;header_buffer&apos; can be reduced." verbose="The scope of the variable &apos;header_buffer&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/src/pnf.c" line="2126" column="10"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;setup_time&apos; can be reduced." verbose="The scope of the variable &apos;setup_time&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_p7_interface.c" line="160" column="10"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;array&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;array&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi.c" line="513" column="11"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;array&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;array&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi.c" line="532" column="11"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi.c" line="617" column="16"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi.c" line="699" column="16"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Multi_UE_Proxy::id&apos; is not initialized in the constructor." verbose="Member variable &apos;Multi_UE_Proxy::id&apos; is not initialized in the constructor." cwe="398">
+            <location file="Multi-Ue-Proxy/src/lte_proxy.cc" line="35" column="17"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;enb_ip&apos; should be passed by const reference." verbose="Parameter &apos;enb_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/lte_proxy.cc" line="35" column="61"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;proxy_ip&apos; should be passed by const reference." verbose="Parameter &apos;proxy_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/lte_proxy.cc" line="35" column="81"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;ue_ip&apos; should be passed by const reference." verbose="Parameter &apos;ue_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/lte_proxy.cc" line="35" column="103"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;enb_ip&apos; should be passed by const reference." verbose="Parameter &apos;enb_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/lte_proxy.cc" line="86" column="44"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;proxy_ip&apos; should be passed by const reference." verbose="Parameter &apos;proxy_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/lte_proxy.cc" line="86" column="64"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;ue_ip&apos; should be passed by const reference." verbose="Parameter &apos;ue_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/lte_proxy.cc" line="86" column="86"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;events&apos; shadows outer variable" verbose="Local variable &apos;events&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="229" column="31" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="82" column="30" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="341" column="28" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="302" column="25" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="385" column="27" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="302" column="25" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="409" column="28" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="385" column="27" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;events&apos; shadows outer variable" verbose="Local variable &apos;events&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="634" column="31" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="487" column="30" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="746" column="28" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="707" column="25" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="790" column="27" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="707" column="25" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="814" column="28" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf_interface.c" line="790" column="27" info="Shadowed declaration"/>
+        </error>
+        <error id="redundantAssignment" severity="style" msg="Variable &apos;r&apos; is reassigned a value before the old one has been used." verbose="Variable &apos;r&apos; is reassigned a value before the old one has been used." cwe="563">
+            <location file="Multi-Ue-Proxy/src/nfapiutils.c" line="373" column="5" info="r is overwritten"/>
+            <location file="Multi-Ue-Proxy/src/nfapiutils.c" line="371" column="5" info="r is assigned"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;r&apos; is assigned a value that is never used." verbose="Variable &apos;r&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/src/nfapiutils.c" line="373" column="5"/>
+        </error>
+        <error id="unknownMacro" severity="error" msg="There is an unknown macro here somewhere. Configuration is required. If TRACEPOINT_EVENT is a macro then please configure it." verbose="There is an unknown macro here somewhere. Configuration is required. If TRACEPOINT_EVENT is a macro then please configure it.">
+            <location file="Multi-Ue-Proxy/src/proxy-tp.h" line="12" column="1"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;Multi_UE_NR_Proxy::id&apos; is not initialized in the constructor." verbose="Member variable &apos;Multi_UE_NR_Proxy::id&apos; is not initialized in the constructor." cwe="398">
+            <location file="Multi-Ue-Proxy/src/nr_proxy.cc" line="35" column="20"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;header_buffer&apos; can be reduced." verbose="The scope of the variable &apos;header_buffer&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/src/vnf.c" line="1256" column="11"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;gnb_ip&apos; should be passed by const reference." verbose="Parameter &apos;gnb_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/nr_proxy.cc" line="35" column="67"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;proxy_ip&apos; should be passed by const reference." verbose="Parameter &apos;proxy_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/nr_proxy.cc" line="35" column="87"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;ue_ip&apos; should be passed by const reference." verbose="Parameter &apos;ue_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/nr_proxy.cc" line="35" column="109"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;gnb_ip&apos; should be passed by const reference." verbose="Parameter &apos;gnb_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/nr_proxy.cc" line="86" column="47"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;proxy_ip&apos; should be passed by const reference." verbose="Parameter &apos;proxy_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/nr_proxy.cc" line="86" column="67"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;ue_ip&apos; should be passed by const reference." verbose="Parameter &apos;ue_ip&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398">
+            <location file="Multi-Ue-Proxy/src/nr_proxy.cc" line="86" column="89"/>
+        </error>
+        <error id="unreachableCode" severity="style" msg="Statements following return, break, continue, goto or throw will never be executed." verbose="Statements following return, break, continue, goto or throw will never be executed." cwe="561">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/tests/vnf_cunit_main.c" line="743" column="2"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;addr.sin6_family&apos; is assigned a value that is never used." verbose="Variable &apos;addr.sin6_family&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/tests/vnf_cunit_main.c" line="1315" column="19"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;addr.sin6_port&apos; is assigned a value that is never used." verbose="Variable &apos;addr.sin6_port&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf/tests/vnf_cunit_main.c" line="1316" column="17"/>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;udp&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;udp&apos; a value by passing the value to the constructor in the initialization list." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="123" column="5"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="294" column="23"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="299" column="23"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="304" column="23"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="309" column="23"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="315" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="320" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="325" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="330" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="335" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="340" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="345" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="350" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="355" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="360" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="365" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="416" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="451" column="19"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="461" column="19"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="478" column="19"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="524" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="563" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="941" column="21"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="969" column="19"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="1000" column="19"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="1536" column="19"/>
+        </error>
+        <error id="shadowArgument" severity="style" msg="Local variable &apos;ve&apos; shadows outer argument" verbose="Local variable &apos;ve&apos; shadows outer argument" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="196" column="25" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="189" column="41" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowArgument" severity="style" msg="Local variable &apos;ve&apos; shadows outer argument" verbose="Local variable &apos;ve&apos; shadows outer argument" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="218" column="25" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="211" column="45" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="547" column="14" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="543" column="13" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;pnf&apos; shadows outer variable" verbose="Local variable &apos;pnf&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="987" column="17" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="984" column="15" info="Shadowed declaration"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;item&apos; can be declared with const" verbose="Parameter &apos;item&apos; can be declared with const" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="571" column="77"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;item&apos; can be declared with const" verbose="Parameter &apos;item&apos; can be declared with const" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="1005" column="79"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;item&apos; can be declared with const" verbose="Parameter &apos;item&apos; can be declared with const" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/main.cpp" line="1545" column="79"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;mac_private&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;mac_private&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/mac.cpp" line="59" column="3"/>
+        </error>
+        <error id="invalidPrintfArgType_sint" severity="warning" msg="%d in format string (no. 1) requires &apos;int&apos; but the argument type is &apos;unsigned int&apos;." verbose="%d in format string (no. 1) requires &apos;int&apos; but the argument type is &apos;unsigned int&apos;." cwe="686">
+            <location file="Multi-Ue-Proxy/open-nFAPI/vnf_sim/src/mac.cpp" line="1109" column="9"/>
+        </error>
+        <error id="shadowArgument" severity="style" msg="Local variable &apos;msg_size&apos; shadows outer argument" verbose="Local variable &apos;msg_size&apos; shadows outer argument" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="550" column="12" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="531" column="84" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowArgument" severity="style" msg="Local variable &apos;msg_size&apos; shadows outer argument" verbose="Local variable &apos;msg_size&apos; shadows outer argument" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="620" column="12" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="601" column="95" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;addr&apos; shadows outer variable" verbose="Local variable &apos;addr&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="1513" column="22" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="1484" column="21" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;addr&apos; shadows outer variable" verbose="Local variable &apos;addr&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="1834" column="22" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="1805" column="21" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;addr&apos; shadows outer variable" verbose="Local variable &apos;addr&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="2006" column="22" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="1977" column="21" info="Shadowed declaration"/>
+        </error>
+        <error id="shadowVariable" severity="style" msg="Local variable &apos;addr&apos; shadows outer variable" verbose="Local variable &apos;addr&apos; shadows outer variable" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="2172" column="22" info="Shadow variable"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/tests/pnf_cunit_main.c" line="2143" column="21" info="Shadowed declaration"/>
+        </error>
+        <error id="useInitializationList" severity="performance" msg="Variable &apos;udp&apos; is assigned in constructor body. Consider performing initialization in initialization list." verbose="When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don&apos;t explicitly write them to the initialization list. You could avoid assigning &apos;udp&apos; a value by passing the value to the constructor in the initialization list." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="104" column="25"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="395" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="565" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="598" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="826" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="840" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="873" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="881" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1055" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1064" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1107" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1180" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1188" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1247" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1255" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1285" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1293" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1323" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1331" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1381" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1389" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1424" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1432" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1465" column="30"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1473" column="6"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1502" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1542" column="32"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1578" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1612" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1687" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1698" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1709" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1719" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1867" column="18"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1928" column="4"/>
+        </error>
+        <error id="unsignedLessThanZero" severity="style" msg="Checking if unsigned expression &apos;shifted_slot&apos; is less than zero." verbose="The unsigned expression &apos;shifted_slot&apos; will never be negative so it is either pointless or an error to check if it is." cwe="570">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf/src/pnf_p7.c" line="1045" column="20" info="Unsigned less than zero"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;item&apos; can be declared with const" verbose="Parameter &apos;item&apos; can be declared with const" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="569" column="79"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;item&apos; can be declared with const" verbose="Parameter &apos;item&apos; can be declared with const" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1580" column="78"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;item&apos; can be declared with const" verbose="Parameter &apos;item&apos; can be declared with const" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1614" column="78"/>
+        </error>
+        <error id="constParameter" severity="style" msg="Parameter &apos;item&apos; can be declared with const" verbose="Parameter &apos;item&apos; can be declared with const" cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1869" column="78"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1488" column="29" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1494" column="41" info="Assuming that condition &apos;pPackedBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1625" column="30" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1627" column="19" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1651" column="30" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1653" column="19" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;idx&apos; can be reduced." verbose="The scope of the variable &apos;idx&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="689" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;idx&apos; can be reduced." verbose="The scope of the variable &apos;idx&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="713" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;idx&apos; can be reduced." verbose="The scope of the variable &apos;idx&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="916" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;idx&apos; can be reduced." verbose="The scope of the variable &apos;idx&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="939" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;idx&apos; can be reduced." verbose="The scope of the variable &apos;idx&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="962" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;idx&apos; can be reduced." verbose="The scope of the variable &apos;idx&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="987" column="12"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1488" column="29"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1625" column="30"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="1651" column="30"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;req&apos; is assigned a value that is never used." verbose="Variable &apos;req&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/pnf_sim/src/main.cpp" line="1772" column="26"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="689" column="16"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="713" column="16"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="916" column="16"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="939" column="16"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="962" column="16"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p4.c" line="987" column="16"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1042" column="41" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1047" column="41" info="Assuming that condition &apos;pPackedBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1084" column="41" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1089" column="41" info="Assuming that condition &apos;pPackedBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2108" column="30" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2110" column="19" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2130" column="30" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2132" column="19" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2265" column="30" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2267" column="19" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;packedMsgLen&apos; can be reduced." verbose="The scope of the variable &apos;packedMsgLen&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1044" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;packedMsgLen16&apos; can be reduced." verbose="The scope of the variable &apos;packedMsgLen16&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1045" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;packedMsgLen&apos; can be reduced." verbose="The scope of the variable &apos;packedMsgLen&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1086" column="12"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;packedMsgLen16&apos; can be reduced." verbose="The scope of the variable &apos;packedMsgLen16&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1087" column="12"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1042" column="41"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="1084" column="41"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2108" column="30"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2130" column="30"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p5.c" line="2265" column="30"/>
+        </error>
+        <error id="redundantInitialization" severity="style" msg="Redundant initialization for &apos;upack_result&apos;. The initialized value is overwritten before it is read." verbose="Redundant initialization for &apos;upack_result&apos;. The initialized value is overwritten before it is read." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="280" column="15" info="upack_result is overwritten"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="278" column="19" info="upack_result is initialized"/>
+        </error>
+        <error id="redundantAssignment" severity="style" msg="Variable &apos;in.t2&apos; is reassigned a value before the old one has been used." verbose="Variable &apos;in.t2&apos; is reassigned a value before the old one has been used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="5097" column="8" info="in.t2 is overwritten"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="5096" column="8" info="in.t2 is assigned"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;i&apos; can be reduced." verbose="The scope of the variable &apos;i&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="112" column="6"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;i&apos; is assigned a value that is never used." verbose="Variable &apos;i&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="112" column="7"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx2&apos; is assigned a value that is never used." verbose="Variable &apos;idx2&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="2296" column="16"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;num_tlv&apos; is assigned a value that is never used." verbose="Variable &apos;num_tlv&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="3454" column="2"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;num_tlv&apos; is assigned a value that is never used." verbose="Variable &apos;num_tlv&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/tests/nfapi_cunit_main.c" line="3487" column="2"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="3357" column="28" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="3359" column="40" info="Assuming that condition &apos;pPackedBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pPackedBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="3557" column="29" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="3559" column="41" info="Assuming that condition &apos;pPackedBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7761" column="30" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7763" column="19" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7789" column="30" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7791" column="19" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="nullPointerArithmeticRedundantCheck" severity="warning" msg="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." verbose="Either the condition &apos;pMessageBuf==NULL&apos; is redundant or there is pointer arithmetic with NULL pointer." cwe="682">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="8044" column="29" info="Null pointer addition"/>
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="8046" column="18" info="Assuming that condition &apos;pMessageBuf==NULL&apos; is not redundant"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &apos;idx&apos; can be reduced." verbose="The scope of the variable &apos;idx&apos; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &apos;i&apos; can be reduced:\012void f(int x)\012{\012    int i = 0;\012    if (x) {\012        // it&apos;s safe to move &apos;int i = 0;&apos; here\012        for (int n = 0; n &lt; 10; ++n) {\012            // it is possible but not safe to move &apos;int i = 0;&apos; here\012            do_something(&amp;i);\012        }\012    }\012}\012When you see this message it is always safe to reduce the variable scope 1 level." cwe="398">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7487" column="11"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="3357" column="28"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pPackedBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="3557" column="29"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7761" column="30"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7789" column="30"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7824" column="30"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="8044" column="29"/>
+        </error>
+        <error id="arithOperationsOnVoidPointer" severity="portability" msg="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined." verbose="&apos;pMessageBuf&apos; is of type &apos;void *&apos;. When using void pointers in calculations, the behaviour is undefined. Arithmetic operations on &apos;void *&apos; is a GNU C extension, which defines the &apos;sizeof(void)&apos; to be 1." cwe="467">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="8073" column="28"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;idx&apos; is assigned a value that is never used." verbose="Variable &apos;idx&apos; is assigned a value that is never used." cwe="563">
+            <location file="Multi-Ue-Proxy/open-nFAPI/nfapi/src/nfapi_p7.c" line="7487" column="15"/>
+        </error>
+        <error id="unmatchedSuppression" severity="information" msg="Unmatched suppression: missingIncludeSystem" verbose="Unmatched suppression: missingIncludeSystem"/>
+    </errors>
+</results>

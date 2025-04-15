@@ -1,0 +1,159 @@
+---
+compile-gNB-oran:
+  stage: compile_oran
+  retry: 2
+  tags: [dind, ubuntu22, realtime, $ORAN_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.oran:$DOCKER_IMAGE_VERSION
+  resource_group: compile_oran
+  needs: []
+    
+  script:
+    - echo "CI_PROJECT_DIR = $CI_PROJECT_DIR"
+    - echo "Compiling gNB oran"
+    - mkdir ./cmake_targets/log
+    - git clone https://gerrit.o-ran-sc.org/r/o-du/phy.git -b oran_e_maintenance_release_v1.0
+    
+    - export rootDir=$(pwd)
+    - export phyDir=$(pwd)/phy
+    - export XRAN_DIR=$phyDir/fhi_lib
+    - export PKG_CONFIG_PATH=/usr/local/lib/x86_64-linux-gnu/pkgconfig:$PKG_CONFIG_PATH
+    - echo $PKG_CONFIG_PATH
+    - pkgconf --variable pc_path pkg-config
+    - ls -la /usr/local/lib/x86_64-linux-gnu/pkgconfig/
+    # - export RTE_SDK=/home/firecell/dpdk-stable-20.11.7/
+    - export RTE_SDK=/home/firecell/dpdk-anurag/
+    - cd $phyDir
+    - pwd
+    - echo "$CI_PROJECT_DIR"
+    - git apply $CI_PROJECT_DIR/cmake_targets/tools/oran_fhi_integration_patches/E/oaioran_E.patch
+    - cd $phyDir/fhi_lib/lib
+    - make clean
+    - make XRAN_LIB_SO=1
+
+    # - sudo cp -rf $phyDir /usr/local/lib/firecell/xran/
+    - cd $rootDir
+    - ./cmake_targets/build_oai --gNB -c --ninja -t oran_fhlib_5g --cmake-opt -Dxran_LOCATION=$XRAN_DIR/lib
+    - echo "Compiling gNB-oran done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/build_oai
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+
+    # when: on_failure
+    expire_in: 15 days
+    name: compile-gNB
+
+  allow_failure: false
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_SIMU != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_ORAN\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ORAN/
+
+
+# ---------------------------- compile gNB simu ---------------------------------
+compile-gNB-simu-oran:
+  stage: compile_oran
+  retry: 2
+  tags: [dind, ubuntu22, realtime, $ORAN_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.oran:$DOCKER_IMAGE_VERSION
+  resource_group: compile_oran
+  needs: []
+    
+  script:
+    # See https://gitlab.com/firecell/rdsubscription/sequansrd/-/tree/3GPP_TTCN_System_Simulator/FC-Scripts
+    - echo "Compiling gNB"
+    - mkdir ./cmake_targets/log
+    - ./cmake_targets/build_oai  --gNB -w SIMU
+    - echo "Compiling gNB done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/build_oai
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+
+    expire_in: 15 days
+    name: compile-gNB
+
+  allow_failure: false
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_SIMU != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_ORAN\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ORAN/
+
+
+# ---------------------------- compile nrUE simu ---------------------------------
+compile-nrUE-simu-oran:
+  stage: compile_oran
+  retry: 2
+  tags: [dind, ubuntu22, realtime, $ORAN_COMPILE_TAG]
+  # image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  image: $CI_REGISTRY/firecell/r-d/firecellrd-oai5g-ran/dockerfile.fc.build.oran:$DOCKER_IMAGE_VERSION
+  resource_group: compile_oran
+  needs: []
+    
+  script:
+    # See https://gitlab.com/firecell/rdsubscription/sequansrd/-/tree/3GPP_TTCN_System_Simulator/FC-Scripts
+    - echo "CI_PROJECT_DIR = $CI_PROJECT_DIR"
+    - echo "Compiling nrUE"
+    - mkdir ./cmake_targets/log
+    - ./cmake_targets/build_oai  --nrUE -w SIMU
+    - echo "Compiling nrUE done !"
+  artifacts:
+    paths:
+      - cmake_targets/ran_build/build
+      - cmake_targets/build_oai
+      - cmake_targets/log
+      # - cmake_targets/ran_build/build/CMakeFiles
+    # when: on_failure
+    expire_in: 15 days
+    name: compile-nrUE
+  allow_failure: false
+
+  rules:
+    - if: $COMPILE != 'true'
+      when: never
+
+    - if: $COMPILE_NRUE != 'true'
+      when: never
+
+    - if: $UBUNTU22 != 'true'
+      when: never
+
+    - if: $COMPILE_SIMU != 'true'
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && ( $CI_COMMIT_MESSAGE =~ /\[COMPILE_ALL\]/ || $CI_COMMIT_MESSAGE =~ /\[COMPILE_ORAN\]/ ) 
+
+    - if: $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ALL/ || $CI_MERGE_REQUEST_LABELS =~ /COMPILE_ORAN/
+
+
+    

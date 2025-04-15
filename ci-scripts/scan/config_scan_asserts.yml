@@ -1,0 +1,23 @@
+git_repos_name: firecellrd-oai5g-ran
+extensions_accepted:
+  - '.c'
+  - '.cpp'
+  - '.h'
+  - '.hpp'
+files_to_exclude:
+  - common/utils/utils.h
+batches:
+  - tag: "assert"
+    command: "grep -RHn <root> -e '^\\s*assert\\s*('"
+  - tag: "DevAssert" 
+    command: "grep -RHn <root> -e '^\\s*DevAssert\\s*('"  
+  - tag: "AssertFatal" 
+    command: "grep -RHn <root> -e '^\\s*AssertFatal\\s*('"  
+  - tag: "AssertError" 
+    command: "grep -RHn <root> -e '^\\s*AssertError\\s*('"  
+  - tag: "MyAssert" 
+    command: "grep -RHn <root> -e '^\\s*MyAssert\\s*('"  
+  - tag: "static_assert" 
+    command: "grep -RHn <root> -e '^\\s*static_assert\\s*('"  
+  - tag: "OPENSSL_assert" 
+    command: "grep -RHn <root> -e '^\\s*OPENSSL_assert\\s*('"  

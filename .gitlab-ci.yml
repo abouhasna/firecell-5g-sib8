@@ -1,0 +1,96 @@
+---
+stages:
+  - check_parameters
+  - clean-docker-images
+  - build-docker-images
+  - cppcheck_u20
+  - cppcheck_u22
+  - compile_u20
+  - compile_u22
+  - compile_oran
+  - scan
+
+variables:
+  # options:
+  # RUNNER_TAG_WHERE: 'lab'
+  # RUNNER_TAG_WHERE: 'azur'
+
+  U20_BUILD_TAG: 'gcp'
+  U22_BUILD_TAG: 'gcp'
+  ORAN_BUILD_TAG: 'gcp'
+  
+  U20_CPPCHECK_TAG: 'gcp'
+  U22_CPPCHECK_TAG: 'lab'
+
+  U20_COMPILE_TAG: 'lab'
+  U22_COMPILE_TAG: 'gcp'
+  ORAN_COMPILE_TAG: 'lab'
+
+
+  #stages
+  DOCKER_IMAGE_VERSION: '1.0.0'
+
+  # CHECK_PARAMETERS: 'true'
+  CHECK_PARAMETERS: 'false'
+  CLEAN_DOCKER_IMAGES: 'true'
+  BUILD_DOCKER_IMAGES: 'true'
+  COMPILE: 'true'
+  STATIC_CODE_ANALASIS: 'true'
+  ANALYSE_CPPCHECK: 'true'
+  SCAN: 'true'
+
+  #jobs
+  BUILD_BASE_IMAGE_UBUNTU20: 'true'
+  BUILD_BUILD_IMAGE_UBUNTU20: 'true'
+
+  BUILD_BASE_IMAGE_UBUNTU22: 'true'
+  BUILD_BUILD_IMAGE_UBUNTU22: 'true'
+
+  BUILD_BASE_IMAGE_ORAN: 'true'
+  BUILD_BUILD_IMAGE_ORAN: 'true'
+
+  SCAN_LICENSES: 'false'
+  SCAN_SONAR_QUBE: 'false'
+  SCAN_ASSERTS: 'true'
+
+# OS versions:
+  UBUNTU20: 'true'
+  UBUNTU22: 'true'
+
+  COMPILE_NRUE: 'true'
+  COMPILE_PROXY: 'false'
+
+# compile types:
+  COMPILE_USRP: 'true'
+  COMPILE_AW2S: 'true'
+  COMPILE_SIMU: 'true'
+
+# sonar-qube
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cahe
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+
+workflow:
+  rules:
+
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
+
+    - if: $CI_OPEN_MERGE_REQUESTS == null && $CI_PIPELINE_SOURCE == "push"
+      when: always
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+      when: always
+    
+include:
+  - local: .gitlab-ci/.check_pipeline_parameters.yml
+  - local: .gitlab-ci/.clean_images_into_registry.yml
+  - local: .gitlab-ci/.build_docker_images.yml
+  - local: .gitlab-ci/.cppcheck_ubuntu20.yml
+  # - local: .gitlab-ci/.cppcheck_ubuntu22.yml
+  - local: .gitlab-ci/.compile_ubuntu20.yml
+  - local: .gitlab-ci/.compile_ubuntu22.yml
+  - local: .gitlab-ci/.compile_oran.yml
+  - local: .gitlab-ci/.scancode-toolkit.yml
+  - local: .gitlab-ci/.scancode-sonar-qube.yml
+  - local: .gitlab-ci/.scan-asserts.yml
+

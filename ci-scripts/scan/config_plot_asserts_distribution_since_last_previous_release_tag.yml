@@ -1,0 +1,126 @@
+#fig size
+w_bar_chart_fig_size: 20
+h_bar_chart_fig_size: 10
+w_horizontal_bar_chart_fig_size: 20
+h_horizontal_bar_chart_fig_size: 10
+
+title: "<repos> Asserts distribution since <tag>"
+csv_headers: ['Folder', 'new asserts', 'removed asserts', 'all asserts']
+df_columns: ['Folder', 'New', 'Removed', 'All']
+# colors available: https://matplotlib.org/stable/gallery/color/named_colors.html
+serie_colors: ['black','red','green','purple']
+date_color: 'green'
+y_label: "Asserts"
+
+# position date inc
+bar_xdate_inc: 0.5
+bar_ydate_inc: 300
+hbar_xdate_inc: -300
+hbar_ydate_inc: 2
+# position labels inc
+bar_labels_x_increments: [0, -0.05, 0.15, -0.27]
+bar_labels_y_increment: 10
+
+hbar_labels_x_increment: 10
+hbar_labels_y_increments: [0, -0.05, 0.15, -0.27]
+
+# position % labels inc
+bar_percentage_labels_y_increments: 100
+hbar_percentage_labels_x_increments: 150
+
+percentage_labels_color: "blue"
+bar_label_fontsize: 10
+hbar_label_fontsize: 8
+
+# not used for horizontal bar chart
+threshold_labels_angle: 8
+tick_label_angle: 30
+labels_angle: 30
+
+#ref to move inside column
+n_decimals: 1
+indices:
+  folder: 0
+  new: 1
+  removed: 2
+  total: 3
+
+get_tags_command: "git tag | grep -e '^v[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+'"
+command_git_diff: "cd <repos_path> && git diff <tag>"
+
+major_release_indice: 2
+
+classify_folders:
+  - openair1
+  - openair1/SCHED
+  - openair1/SCHED_NR
+  - openair2
+  - openair2/E1AP
+  - openair2/F1AP
+  - openair2/LAYER2
+  - openair2/RRC
+  - openair3
+  - openair3/NAS
+  - openair3/NGAP
+
+extensions_accepted:
+  - '.c'
+  - '.cpp'
+  - '.h'
+  - '.hpp'
+
+git_grep_assert_patterns:
+  - '[+][ ]*assert[ ]*\('
+  - '[+][ ]*DevAssert[ ]*\('
+  - '[+][ ]*AssertFatal[ ]*\('
+  - '[+][ ]*AssertError[ ]*\('
+  - '[+][ ]*MyAssert[ ]*\('
+  - '[+][ ]*static_assert[ ]*\('
+  - '[+][ ]*OPENSSL_assert[ ]*\('
+  - '[-][ ]*assert[ ]*\('
+  - '[-][ ]*DevAssert[ ]*\('
+  - '[-][ ]*AssertFatal[ ]*\('
+  - '[-][ ]*AssertError[ ]*\('
+  - '[-][ ]*MyAssert[ ]*\('
+  - '[-][ ]*static_assert[ ]*\('
+  - '[-][ ]*OPENSSL_assert[ ]*\('
+
+diff_patterns_to_exclude:
+  - '^diff --git '
+  - '^index '
+  # - '^-[ ]*'
+  - '^-$'
+  - '^[+]- '
+  - '^-[+] '
+
+#
+in_grep_patterns:
+  - "grep -e '^[+]\\s*assert\\s*('"
+  - "grep -e '^[+]\\s*DevAssert\\s*('"
+  - "grep -e '^[+]\\s*AssertFatal\\s*('"
+  - "grep -e '^[+]\\s*AssertError\\s*('"
+  - "grep -e '^[+]\\s*MyAssert\\s*('"
+  - "grep -e '^[+]\\s*static_assert\\s*('"
+  - "grep -e '^[+]\\s*OPENSSL_assert\\s*('"
+
+out_grep_patterns:
+  - "grep -e '^[-]\\s*assert\\s*('"
+  - "grep -e '^[-]\\s*DevAssert\\s*('"
+  - "grep -e '^[-]\\s*AssertFatal\\s*('"
+  - "grep -e '^[-]\\s*AssertError\\s*('"
+  - "grep -e '^[-]\\s*MyAssert\\s*('"
+  - "grep -e '^[-]\\s*static_assert\\s*('"
+  - "grep -e '^[-]\\s*OPENSSL_assert\\s*('"
+
+command_find_all_asserts: "find <repos_path> <paths_to_exclude> <file_selector> -type f -exec grep '<assert_selector>' {} \\;"
+grep_assert_patterns:
+  - '^\s*assert\s*('
+  - '^\s*DevAssert\s*('
+  - '^\s*AssertFatal\s*('
+  - '^\s*AssertError\s*('
+  - '^\s*MyAssert\s*('
+  - '^\s*static_assert\s*('
+  - '^\s*OPENSSL_assert\s*('
+
+grep_patterns_to_cleanup:
+  - '^[:]grep[:]'

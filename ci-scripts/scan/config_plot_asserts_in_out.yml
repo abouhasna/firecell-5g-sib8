@@ -1,0 +1,51 @@
+title: "<repos> Asserts moves"
+csv_headers: "Version,asserts added,asserts removed,all asserts"
+df_columns: ['Version', 'In', 'Out', 'All']
+# colors available: https://matplotlib.org/stable/gallery/color/named_colors.html
+serie_colors: ['black','red','green','purple']
+y_label: "Asserts"
+date_color: 'green'
+xdate_inc: -5
+get_tags_command: "git tag | grep -e '^v[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+'"
+
+dataframe_column: ['Version', 'In', "Out", "All"]
+indices:
+  version: 0
+  new: 1
+  removed: 2
+  total: 3
+extensions_accepted:
+  - '.c'
+  - '.cpp'
+  - '.h'
+  - '.hpp'
+
+in_grep_patterns:
+  - "grep -e '^[+]\\s*assert\\s*('"
+  - "grep -e '^[+]\\s*DevAssert\\s*('"
+  - "grep -e '^[+]\\s*AssertFatal\\s*('"
+  - "grep -e '^[+]\\s*AssertError\\s*('"
+  - "grep -e '^[+]\\s*MyAssert\\s*('"
+  - "grep -e '^[+]\\s*static_assert\\s*('"
+  - "grep -e '^[+]\\s*OPENSSL_assert\\s*('"
+
+out_grep_patterns:
+  - "grep -e '^[-]\\s*assert\\s*('"
+  - "grep -e '^[-]\\s*DevAssert\\s*('"
+  - "grep -e '^[-]\\s*AssertFatal\\s*('"
+  - "grep -e '^[-]\\s*AssertError\\s*('"
+  - "grep -e '^[-]\\s*MyAssert\\s*('"
+  - "grep -e '^[-]\\s*static_assert\\s*('"
+  - "grep -e '^[-]\\s*OPENSSL_assert\\s*('"
+
+
+command_total_asserts: "cd <repos_path> && git grep <assert_selector> <tag> | grep '<file_selector>' |grep -v ':\\s*#' |grep -v ':\\s*//'| wc -l"
+
+assert_patterns:
+  - '^\s*assert\s*('
+  - '^\s*DevAssert\s*('
+  - '^\s*AssertFatal\s*('
+  - '^\s*AssertError\s*('
+  - '^\s*MyAssert\s*('
+  - '^\s*static_assert\s*('
+  - '^\s*OPENSSL_assert\s*('

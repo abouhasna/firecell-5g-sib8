@@ -1,0 +1,87 @@
+---
+TC_1_lttng:
+  stage: babeltrace
+  retry: 2
+  timeout: 30m
+  tags: [dind, ttcn, azure]
+  resource_group: TC_1_lttng
+  image: registry.gitlab.com/firecell/r-d/utils/ci-sequans-4g:$SEQUANS_VERSION
+  script:
+    - export SEQUANSRD_PATH=$CI_PROJECT_DIR
+    - export SEQUANS_PATH="/home/firecell/SEQUANS-$SEQUANS_VERSION"
+    - cp /home/firecell/SEQUANS-${SEQUANS_VERSION}/etc/pixit_SQNS.cfg pixit_SQNS.cfg # for the artifacts
+    - sudo chown firecell:firecell $CI_PROJECT_DIR/ci-scripts/ttcn_runner.sh &&
+      chmod u+x $CI_PROJECT_DIR/ci-scripts/ttcn_runner.sh
+    - export NO_SECU=false ; export USE_LTTNG=true
+    - $CI_PROJECT_DIR/ci-scripts/ttcn_runner.sh $TTCN_TEST
+  parallel:
+    matrix:
+      - TTCN_TEST: TC_6_1_2_6
+      - TTCN_TEST: TC_9_3_2_1
+  artifacts:
+    paths:
+      - "*.tar.gz"
+      - pixit_SQNS.cfg
+      - FirecellRD/components/RAN/ci-scripts/conf_files/3GPP_System_Simulator/FC_CI_SS_proxy_rcc.band1_1CC.tm1.nfapi.conf
+      - ci-scripts/LTE_Testsuite.cfg
+    expire_in: 15 days
+    when: always
+    name: TTCN_$TTCN_TEST
+  dependencies: [compile-proxy, compile-eNB]
+  when: on_success
+  allow_failure: true
+
+babeltrace2_TTCN_lttng:
+  stage: babeltrace
+  retry: 2
+  tags: [dind, lab]
+  image: ubuntu:jammy
+  before_script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt update && apt install -y babeltrace2 python3-bt2 python3-pip tshark unzip wget
+    - pip install termcolor datetime pycrate scapy nest-asyncio pyshark crc32c pycrypto cryptography pycryptodome
+      asciidoc swig junitparser
+    # install CryptoMobile from github:
+    - wget https://github.com/P1sec/CryptoMobile/archive/refs/heads/master.zip
+    - unzip master.zip
+    - cd CryptoMobile-master && python3 setup.py install && cd $CI_PROJECT_DIR
+  script:
+    - cd $CI_PROJECT_DIR
+    - ls
+    - tar xzf lttng-traces_"${TTCN_TEST}".tar.gz
+    - echo "${TTCN_TEST}"
+
+    - echo "Running first with ENABLE_STATS_BBT2 set to False"
+    - export ENABLE_STATS_BBT2="False" ; time babeltrace2
+      --plugin-path=$CI_PROJECT_DIR/FirecellRD/tools/scripts/plugins/
+      -c sink.4G-decoder.jsonnify
+      root/lttng-traces/session_"${TTCN_TEST}" > "${TTCN_TEST}"_lttng_decode_log_00_nostats.txt
+    - cat "${TTCN_TEST}"_lttng_decode_log_00_nostats.txt
+    - time python3 $CI_PROJECT_DIR/ci-scripts/analyse_babeltrace_output.py "${TTCN_TEST}"_lttng_decode_log_00_nostats.txt babeltrace_analysis_ttcn-"${TTCN_TEST}"_nostats.xml
+
+    - echo "Running again with ENABLE_STATS_BBT2 set to True"
+    - export ENABLE_STATS_BBT2="True" ; time babeltrace2
+      --plugin-path=$CI_PROJECT_DIR/FirecellRD/tools/scripts/plugins/
+      -c sink.4G-decoder.jsonnify
+      root/lttng-traces/session_"${TTCN_TEST}" > "${TTCN_TEST}"_lttng_decode_log_00_stats.txt
+    - cat "${TTCN_TEST}"_lttng_decode_log_00_stats.txt
+    - time python3 $CI_PROJECT_DIR/ci-scripts/analyse_babeltrace_output.py "${TTCN_TEST}"_lttng_decode_log_00_stats.txt babeltrace_analysis_ttcn-"${TTCN_TEST}"_stats.xml
+  parallel:
+    matrix:
+      - TTCN_TEST: TC_6_1_2_6
+      - TTCN_TEST: TC_9_3_2_1
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/${TTCN_TEST}_lttng_decode_log_00_nostats.txt
+      - $CI_PROJECT_DIR/${TTCN_TEST}_lttng_decode_log_00_stats.txt
+      - $CI_PROJECT_DIR/babeltrace_analysis_ttcn-${TTCN_TEST}_nostats.xml
+      - $CI_PROJECT_DIR/babeltrace_analysis_ttcn-${TTCN_TEST}_stats.xml
+      - $CI_PROJECT_DIR/result_formatted.txt
+    reports:
+      junit: babeltrace_analysis_ttcn-${TTCN_TEST}_stats.xml
+    expire_in: 15 days
+    when: always
+    name: babeltrace2_TTCN_$TTCN_TEST
+  dependencies:
+    - TC_1_lttng
+  needs: [TC_1_lttng]

@@ -1,0 +1,28 @@
+---
+scan-license:
+  stage: scan
+  tags: [lab, dind]
+  image: registry.gitlab.com/firecell/r-d/utils/scancode-toolkit:v1-custom
+  script:
+    - echo "Scanning license for firecellrd-oai5g-ran"
+    - scancode -l -n 4 ./ --html firecellrd-oai5g-ran.html
+  artifacts:
+    paths:
+      - firecellrd-oai5g-ran.html
+    expire_in: 31 days
+    when: always
+  rules:
+    - if: $SCAN != 'true'
+      when: never
+
+    - if: $SCAN_LICENSES != 'true'
+      when: never
+
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+    # - if: $CI_COMMIT_MESSAGE =~ /\[scan licenses\].*/
+      
+  

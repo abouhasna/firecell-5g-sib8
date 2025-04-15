@@ -1,0 +1,37 @@
+scan-sonar-qube:
+  stage: scan
+  retry: 1
+  script:
+    - echo "Running sonar-qube"
+    - pwd
+    - ls */
+    # Download sonar-scanner
+    - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip'
+    - unzip -o sonar-scanner.zip
+    - mv sonar-scanner-6.0.0.4432-linux sonar-scanner
+    # prepare the build tree
+    # - cd sonar-scanner
+    - mkdir build
+    - sonar-scanner/bin/sonar-scanner --define sonar.host.url="${SONAR_HOST_URL}"
+  # allow_failure: true
+  
+  rules:
+    - if: $SCAN != 'true'
+      when: never 
+
+    - if: $SCAN_SONAR_QUBE != 'true'
+      when: never 
+
+
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$/'
+
+  artifacts:
+    paths:
+      - sonar-scanner
+    # reports:
+    #   junit: cppcheck-eNB-gNB-junit.xml
+    expire_in: 15 days
+    when: always
