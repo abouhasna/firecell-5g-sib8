@@ -201,7 +201,7 @@ NR_SearchSpace_t *rrc_searchspace_config(bool is_common, int searchspaceid, int 
   } else {
     if (is_common) {
       ss->nrofCandidates->aggregationLevel2 = NR_SearchSpace__nrofCandidates__aggregationLevel2_n0;
-      ss->nrofCandidates->aggregationLevel4 = NR_SearchSpace__nrofCandidates__aggregationLevel4_n1;
+      ss->nrofCandidates->aggregationLevel4 = NR_SearchSpace__nrofCandidates__aggregationLevel4_n2;
     } else {
       ss->nrofCandidates->aggregationLevel2 = NR_SearchSpace__nrofCandidates__aggregationLevel2_n2;
       ss->nrofCandidates->aggregationLevel4 = NR_SearchSpace__nrofCandidates__aggregationLevel4_n0;
@@ -2365,7 +2365,7 @@ NR_BCCH_DL_SCH_Message_t *get_SIB1_NR(const NR_ServingCellConfigCommon_t *scc,
   // TODO: add connEstFailureControl
 
   //si-SchedulingInfo
-  /*sib1->si_SchedulingInfo = CALLOC(1,sizeof(struct NR_SI_SchedulingInfo));
+  sib1->si_SchedulingInfo = CALLOC(1,sizeof(struct NR_SI_SchedulingInfo));
   asn_set_empty(&sib1->si_SchedulingInfo->schedulingInfoList.list);
   sib1->si_SchedulingInfo->si_WindowLength = NR_SI_SchedulingInfo__si_WindowLength_s40;
   struct NR_SchedulingInfo *schedulingInfo = CALLOC(1,sizeof(struct NR_SchedulingInfo));
@@ -2373,27 +2373,12 @@ NR_BCCH_DL_SCH_Message_t *get_SIB1_NR(const NR_ServingCellConfigCommon_t *scc,
   schedulingInfo->si_Periodicity = NR_SchedulingInfo__si_Periodicity_rf8;
   asn_set_empty(&schedulingInfo->sib_MappingInfo.list);
 
-  NR_SIB_TypeInfo_t *sib_type3 = CALLOC(1,sizeof(e_NR_SIB_TypeInfo__type));
-  sib_type3->type = NR_SIB_TypeInfo__type_sibType3;
-  sib_type3->valueTag = CALLOC(1,sizeof(sib_type3->valueTag));
-  asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list,sib_type3);
+  NR_SIB_TypeInfo_t *sib_type8 = CALLOC(1,sizeof(e_NR_SIB_TypeInfo__type));
+  sib_type8->type = NR_SIB_TypeInfo__type_sibType8;
+  sib_type8->valueTag = calloc(1, sizeof(*sib_type8->valueTag));
+  asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list,sib_type8);
 
-  NR_SIB_TypeInfo_t *sib_type5 = CALLOC(1,sizeof(e_NR_SIB_TypeInfo__type));
-  sib_type5->type = NR_SIB_TypeInfo__type_sibType5;
-  sib_type5->valueTag = CALLOC(1,sizeof(sib_type5->valueTag));
-  asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list,sib_type5);
-
-  NR_SIB_TypeInfo_t *sib_type4 = CALLOC(1,sizeof(e_NR_SIB_TypeInfo__type));
-  sib_type4->type = NR_SIB_TypeInfo__type_sibType4;
-  sib_type4->valueTag = CALLOC(1,sizeof(sib_type4->valueTag));
-  asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list,sib_type4);
-
-  NR_SIB_TypeInfo_t *sib_type2 = CALLOC(1,sizeof(e_NR_SIB_TypeInfo__type));
-  sib_type2->type = NR_SIB_TypeInfo__type_sibType2;
-  sib_type2->valueTag = CALLOC(1,sizeof(sib_type2->valueTag));
-  asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list,sib_type2);
-
-  asn1cSeqAdd(&sib1->si_SchedulingInfo->schedulingInfoList.list,schedulingInfo);*/
+  asn1cSeqAdd(&sib1->si_SchedulingInfo->schedulingInfoList.list,schedulingInfo);
 
   // servingCellConfigCommon
   asn1cCalloc(sib1->servingCellConfigCommon, ServCellCom);

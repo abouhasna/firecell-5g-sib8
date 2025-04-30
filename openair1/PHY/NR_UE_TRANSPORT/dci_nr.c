@@ -688,6 +688,8 @@ void nr_dci_decoding_procedure(PHY_VARS_NR_UE *ue,
 {
   int e_rx_cand_idx = 0;
   *dci_ind = (fapi_nr_dci_indication_t){.SFN = proc->frame_rx, .slot = proc->nr_slot_rx};
+  
+  bool is_SI = rel15->rnti == SI_RNTI;
 
   for (int j = 0; j < rel15->number_of_candidates; j++) {
     int CCEind = rel15->CCE[j];
@@ -700,8 +702,9 @@ void nr_dci_decoding_procedure(PHY_VARS_NR_UE *ue,
       // same rnti and size at a different aggregation level
       int dci_length = rel15->dci_length_options[k];
       int ind;
+      
       for (ind = 0; ind < dci_ind->number_of_dcis; ind++) {
-        if (rel15->rnti == dci_ind->dci_list[ind].rnti && dci_length == dci_ind->dci_list[ind].payloadSize) {
+        if (!is_SI && rel15->rnti == dci_ind->dci_list[ind].rnti && dci_length == dci_ind->dci_list[ind].payloadSize) {
           break;
         }
       }

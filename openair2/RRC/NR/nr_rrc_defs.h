@@ -343,6 +343,9 @@ typedef struct {
   uint8_t                                   *SIB23;
   int sizeof_SIB23;
 
+  uint8_t                                   *SIB8;
+  int sizeof_SIB8;
+
 } rrc_gNB_carrier_data_t;
 //---------------------------------------------------
 

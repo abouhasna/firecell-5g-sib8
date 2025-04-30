@@ -870,7 +870,7 @@ void nr_rrc_mac_config_req_mib(module_id_t module_id,
   mac->phy_config.CC_id = cc_idP;
   if (sched_sib == 1)
     mac->get_sib1 = true;
-  else if (sched_sib == 2)
+  else if (sched_sib > 1)
     mac->get_otherSI = true;
   nr_ue_decode_mib(mac, cc_idP);
 }

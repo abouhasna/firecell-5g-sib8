@@ -564,6 +564,8 @@ static int nr_decode_SI(NR_UE_RRC_SI_INFO *SI_info, NR_SystemInformation_t *si)
         if(!SI_info->sib8)
           SI_info->sib8 = calloc(1, sizeof(*SI_info->sib8));
         memcpy(SI_info->sib8, typeandinfo->choice.sib8, sizeof(NR_SIB8_t));
+        if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
+          xer_fprint(stdout, &asn_DEF_NR_SIB2, (const void *) SI_info->sib8);
         nr_timer_start(&SI_info->sib8_timer);
         break;
 
