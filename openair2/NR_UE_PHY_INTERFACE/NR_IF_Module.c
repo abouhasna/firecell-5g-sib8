@@ -1049,14 +1049,15 @@ static int handle_bcch_bch(NR_UE_MAC_INST_t *mac,
 }
 
 //  L2 Abstraction Layer
-static int handle_bcch_dlsch(NR_UE_MAC_INST_t *mac,
+static int handle_bcch_dlsch(module_id_t module_id,
                              int cc_id,
                              unsigned int gNB_index,
                              uint8_t ack_nack,
                              uint8_t *pduP,
                              uint32_t pdu_len)
 {
-  return nr_ue_decode_BCCH_DL_SCH(mac, cc_id, gNB_index, ack_nack, pduP, pdu_len);
+  nr_ue_decode_BCCH_DL_SCH(module_id, cc_id, gNB_index, ack_nack, pduP, pdu_len);
+  return 0;
 }
 
 //  L2 Abstraction Layer
@@ -1227,7 +1228,7 @@ static uint32_t nr_ue_dl_processing(nr_downlink_indication_t *dl_info)
           }
           break;
         case FAPI_NR_RX_PDU_TYPE_SIB:
-          ret_mask |= (handle_bcch_dlsch(mac,
+          ret_mask |= (handle_bcch_dlsch(dl_info->module_id,
                                          dl_info->cc_id, dl_info->gNB_index,
                                          rx_indication_body.pdsch_pdu.ack_nack,
                                          rx_indication_body.pdsch_pdu.pdu,

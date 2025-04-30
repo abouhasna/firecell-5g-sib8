@@ -870,8 +870,8 @@ void nr_rrc_mac_config_req_mib(module_id_t module_id,
   mac->phy_config.CC_id = cc_idP;
   if (sched_sib == 1)
     mac->get_sib1 = true;
-  else if (sched_sib == 2)
-    mac->get_otherSI = true;
+  else if (sched_sib > 1)
+    mac->get_otherSI[sched_sib - 2] = true;
   nr_ue_decode_mib(mac, cc_idP);
 }
 
@@ -1476,8 +1476,8 @@ void nr_rrc_mac_config_req_sib1(module_id_t module_id,
   AssertFatal(scc, "SIB1 SCC should not be NULL\n");
 
   UPDATE_IE(mac->tdd_UL_DL_ConfigurationCommon, scc->tdd_UL_DL_ConfigurationCommon, NR_TDD_UL_DL_ConfigCommon_t);
-  UPDATE_IE(mac->si_SchedulingInfo, si_SchedulingInfo, NR_SI_SchedulingInfo_t);
-
+  UPDATE_IE(mac->si_SchedInfo, si_SchedulingInfo, NR_SI_SchedulingInfo_t);
+  mac->nr_band = *scc->downlinkConfigCommon.frequencyInfoDL.frequencyBandList.list.array[0]->freqBandIndicatorNR;
   config_common_ue_sa(mac, scc, cc_idP);
   configure_common_BWP_dl(mac,
                           0, // bwp-id

@@ -64,7 +64,7 @@ void release_common_ss_cset(NR_BWP_PDCCH_t *pdcch);
    \param sibs_mask      sibs mask
    \param pduP           pointer to pdu
    \param pdu_length     length of pdu */
-int8_t nr_ue_decode_BCCH_DL_SCH(NR_UE_MAC_INST_t *mac,
+void nr_ue_decode_BCCH_DL_SCH(NR_UE_MAC_INST_t *mac,
                                 int cc_id,
                                 unsigned int gNB_index,
                                 uint8_t ack_nack,

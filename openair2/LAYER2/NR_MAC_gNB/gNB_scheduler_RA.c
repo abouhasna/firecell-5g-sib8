@@ -1139,8 +1139,9 @@ static bool check_msg2_monitoring(const NR_RA_t *ra, int mu, int current_frame, 
   int n = nr_slots_per_frame[mu];
 
   // check if the slot is not among the PDCCH monitored ones (38.213 10.1)
-  uint16_t monitoring_slot_period, monitoring_offset;
-  find_monitoring_periodicity_offset_common(ra->ra_ss, &monitoring_slot_period, &monitoring_offset);
+  int monitoring_slot_period, monitoring_offset;
+  get_monitoring_period_offset(ra->ra_ss, &monitoring_slot_period, &monitoring_offset);
+
   if ((current_frame * n + current_slot - monitoring_offset) % monitoring_slot_period != 0)
     return false;
   return true;

@@ -58,10 +58,13 @@ void nr_ue_init_mac(NR_UE_MAC_INST_t *mac)
   LOG_I(NR_MAC, "[UE%d] Initializing MAC\n", mac->ue_id);
   nr_ue_reset_sync_state(mac);
   mac->get_sib1 = false;
-  mac->get_otherSI = false;
+
+  for (int i = 0; i < MAX_SI_GROUPS; i++)
+    mac->get_otherSI[i] = false;
+  
   mac->phy_config_request_sent = false;
   memset(&mac->phy_config, 0, sizeof(mac->phy_config));
-  mac->si_window_start = -1;
+  mac->si_SchedInfo.si_window_start = -1;
   mac->servCellIndex = 0;
   mac->harq_ACK_SpatialBundlingPUCCH = false;
   mac->harq_ACK_SpatialBundlingPUSCH = false;
@@ -233,7 +236,7 @@ void release_mac_configuration(NR_UE_MAC_INST_t *mac,
     asn1cFreeStruc(asn_DEF_NR_MIB, mac->mib);
     asn1cFreeStruc(asn_DEF_NR_SearchSpace, mac->search_space_zero);
     asn1cFreeStruc(asn_DEF_NR_ControlResourceSet, mac->coreset0);
-    asn1cFreeStruc(asn_DEF_NR_SI_SchedulingInfo, mac->si_SchedulingInfo);
+    asn1cFreeStruc(asn_DEF_NR_SI_SchedulingInfo, mac->si_SchedInfo);
     asn1cFreeStruc(asn_DEF_NR_TDD_UL_DL_ConfigCommon, mac->tdd_UL_DL_ConfigurationCommon);
     for (int i = mac->lc_ordered_list.count; i > 0 ; i--)
       asn_sequence_del(&mac->lc_ordered_list, i - 1, 1);

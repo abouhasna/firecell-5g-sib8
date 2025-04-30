@@ -441,7 +441,22 @@ typedef struct prach_association_pattern {
   uint8_t nb_of_prach_conf_period_in_max_period; // Nb of PRACH configuration periods within the maximum association pattern period (according to the size of the configured PRACH
   uint8_t nb_of_frame; // Total number of frames included in the association pattern period (after mapping the SSBs and determining the real association pattern length)
 } prach_association_pattern_t;
+typedef enum {
+  NR_SI_INFO,
+  NR_SI_INFO_v1700
+} nr_si_info_type;
 
+typedef struct {
+  nr_si_info_type type;
+  long si_Periodicity;
+  long si_WindowPosition;
+} si_schedinfo_config_t;
+
+typedef struct {
+  int si_window_start;
+  int si_WindowLength;
+  A_SEQUENCE_OF(si_schedinfo_config_t) si_SchedInfo_list;
+} si_schedInfo_t;
 // SSB details
 typedef struct ssb_info {
   prach_occasion_info_t *mapped_ro[MAX_NB_RO_PER_SSB_IN_ASSOCIATION_PATTERN]; // List of mapped RACH Occasions to this SSB index
@@ -498,9 +513,9 @@ typedef struct NR_UE_MAC_INST_s {
   long physCellId;
   int first_sync_frame;
   bool get_sib1;
-  bool get_otherSI;
+  bool get_otherSI[MAX_SI_GROUPS];
   NR_MIB_t *mib;
-  struct NR_SI_SchedulingInfo *si_SchedulingInfo;
+  si_schedInfo_t si_SchedInfo;
   int si_window_start;
   ssb_list_info_t ssb_list[MAX_NUM_BWP_UE];
   prach_association_pattern_t prach_assoc_pattern[MAX_NUM_BWP_UE];
