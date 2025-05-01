@@ -1610,7 +1610,74 @@ void find_aggregation_candidates(uint8_t *aggregation_level,
        break;
   } 
 }
-
+void get_monitoring_period_offset(const NR_SearchSpace_t *ss, int *period, int *offset)
+{
+  switch(ss->monitoringSlotPeriodicityAndOffset->present) {
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl1:
+      *period = 1;
+      *offset = 0;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl2:
+      *period = 2;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl2;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl4:
+      *period = 4;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl4;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl5:
+      *period = 5;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl5;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl8:
+      *period = 8;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl8;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl10:
+      *period = 10;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl10;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl16:
+      *period = 16;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl16;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl20:
+      *period = 20;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl20;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl40:
+      *period = 40;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl40;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl80:
+      *period = 80;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl80;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl160:
+      *period = 160;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl160;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl320:
+      *period = 320;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl320;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl640:
+      *period = 640;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl640;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl1280:
+      *period = 1280;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl1280;
+      break;
+    case NR_SearchSpace__monitoringSlotPeriodicityAndOffset_PR_sl2560:
+      *period = 2560;
+      *offset = ss->monitoringSlotPeriodicityAndOffset->choice.sl2560;
+      break;
+  default:
+    AssertFatal(1==0,"Invalid monitoring slot periodicity value\n");
+    break;
+  }
+}
 
 void set_monitoring_periodicity_offset(NR_SearchSpace_t *ss,
                                        uint16_t period,
@@ -3306,6 +3373,7 @@ uint16_t nr_dci_size(const NR_UE_DL_BWP_t *DL_BWP,
       // 3GPP TS 38.212 Section 7.3.1.0: DCI size alignment
       // Size of DCI format 1_0 is given by the size of CORESET 0 if CORESET 0 is configured for the cell and the size
       // of initial DL bandwidth part if CORESET 0 is not configured for the cell
+      LOG_A(NR_MAC, "DCI_FORMAT 1_0 : pdsch_Config %p, pucch_Config %p\n", pdsch_Config, pucch_Config);
       size = 28;
       dci_pdu->frequency_domain_assignment.nbits = (uint8_t)ceil(log2((N_RB * (N_RB + 1)) >> 1)); // Freq domain assignment
       size += dci_pdu->frequency_domain_assignment.nbits;

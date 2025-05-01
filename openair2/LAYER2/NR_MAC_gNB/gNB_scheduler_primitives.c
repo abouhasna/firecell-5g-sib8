@@ -1251,6 +1251,7 @@ void fill_dci_pdu_rel15(const NR_UE_ServingCell_Info_t *servingCellInfo,
 {
   uint8_t fsize = 0, pos = 0;
   uint64_t *dci_pdu = (uint64_t *)pdcch_dci_pdu->Payload;
+  
   *dci_pdu = 0;
   uint16_t alt_size = 0;
   uint16_t N_RB;
@@ -1296,6 +1297,7 @@ void fill_dci_pdu_rel15(const NR_UE_ServingCell_Info_t *servingCellInfo,
   }
   else
     N_RB = cset0_bwp_size;
+  
 
   int dci_size = nr_dci_size(current_DL_BWP,
                              current_UL_BWP,
@@ -1320,7 +1322,7 @@ void fill_dci_pdu_rel15(const NR_UE_ServingCell_Info_t *servingCellInfo,
   switch (dci_format) {
   case NR_DL_DCI_FORMAT_1_0:
     switch (rnti_type) {
-      case TYPE_RA_RNTI_:
+      case SI_RNTI:
         // Freq domain assignment
         fsize = (int)ceil(log2((N_RB * (N_RB + 1)) >> 1));
         pos = fsize;

@@ -517,7 +517,6 @@ static void nr_fill_nfapi_dl_SIB_pdu(gNB_MAC_INST *gNB_mac,
                                                                             pdsch_pdu_rel15->BWPSize,
                                                                             1);
   pdsch_pdu_rel15->maintenance_parms_v3.ldpcBaseGraph = get_BG(TBS<<3,pdsch_pdu_rel15->targetCodeRate[0]);
-
   /* Fill PDCCH DL DCI PDU */
   nfapi_nr_dl_dci_pdu_t *dci_pdu = &pdcch_pdu_rel15->dci_pdu[pdcch_pdu_rel15->numDlDci];
   pdcch_pdu_rel15->numDlDci++;
@@ -564,7 +563,6 @@ static void nr_fill_nfapi_dl_SIB_pdu(gNB_MAC_INST *gNB_mac,
   fill_dci_pdu_rel15(scc,
                      NULL,
                      NULL,
-                     NULL,
                      &pdcch_pdu_rel15->dci_pdu[pdcch_pdu_rel15->numDlDci - 1],
                      &dci_payload,
                      dci_format,
@@ -572,8 +570,8 @@ static void nr_fill_nfapi_dl_SIB_pdu(gNB_MAC_INST *gNB_mac,
                      0,
                      search_space,
                      coreset,
+                     0,
                      gNB_mac->cset0_bwp_size);
-
 
   LOG_D(MAC,
         "BWPSize: %3i, BWPStart: %3i, SubcarrierSpacing: %i, CyclicPrefix: %i, StartSymbolIndex: %i, DurationSymbols: %i, "
@@ -610,7 +608,7 @@ void schedule_nr_sib1(module_id_t module_idP,
   NR_COMMON_channels_t *cc = &gNB_mac->common_channels[CC_id];
   NR_ServingCellConfigCommon_t *scc = cc->ServingCellConfigCommon;
 
-  int time_domain_allocation = gNB_mac->sib1_tda;
+  int time_domain_allocation = 1;
 
   int L_max;
   switch (scc->ssb_PositionsInBurst->present) {
@@ -775,7 +773,7 @@ static void other_sib_sched_control(module_id_t module_idP,
 
   memcpy(&sib_bcch_pdu[0], RC.nrrrc[module_idP]->carrier.SIB8, RC.nrrrc[module_idP]->carrier.sizeof_SIB8);
 
-  uint32_t num_total_bytes = RC.nrrrc[Mod_idP]->carrier.sizeof_SIB8;
+  uint32_t num_total_bytes = RC.nrrrc[module_idP]->carrier.sizeof_SIB8;
   
   uint32_t TBS = get_tbs_bch(type0_PDCCH_CSS_config, &sched_pdsch_otherSI, num_total_bytes, vrb_map);
 

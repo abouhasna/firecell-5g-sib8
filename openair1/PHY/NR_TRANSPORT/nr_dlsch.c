@@ -241,7 +241,7 @@ void nr_generate_pdsch(processingData_L1tx_t *msgTx, int frame, int slot)
           // PDCCH is associated with CORESET 0 and Type0-PDCCH common search space and is addressed to SI-RNTI
           // 3GPP TS 38.211 V15.8.0 Section 7.4.1.1.2 Mapping to physical resources
           dmrs_idx = rel15->rbStart;
-          if (rel15->rnti == 0)
+          if (rel15->refPoint == 0)
             dmrs_idx += rel15->BWPStart;
           dmrs_idx *= dmrs_Type == NFAPI_NR_DMRS_TYPE1 ? 6 : 4;
           if (l_symbol == (l_overline + 1)) // take into account the double DMRS symbols
