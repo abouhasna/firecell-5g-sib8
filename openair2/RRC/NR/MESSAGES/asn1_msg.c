@@ -411,8 +411,8 @@ uint8_t do_SIB8_NR(rrc_gNB_carrier_data_t *carrier,
 
   sib8->choice.sib8->messageIdentifier.size = 2;
   sib8->choice.sib8->messageIdentifier.buf = CALLOC(2, sizeof(uint8_t));
-  sib8->choice.sib8->messageIdentifier.buf[0] = 0x11; // Presidential Alert (0x1111)
-  sib8->choice.sib8->messageIdentifier.buf[1] = 0x11;
+  sib8->choice.sib8->messageIdentifier.buf[0] = 0x11; 
+  sib8->choice.sib8->messageIdentifier.buf[1] = 0x12; // Presidential Alert (0x1112)
   sib8->choice.sib8->messageIdentifier.bits_unused = 0;
 
   sib8->choice.sib8->serialNumber.size = 2;
