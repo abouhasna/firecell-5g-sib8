@@ -124,10 +124,10 @@ void nr_rrc_handle_timers(NR_UE_RRC_INST_t *rrc)
     handle_RRCRelease(rrc);
 
   bool t300_expired = nr_timer_tick(&timers->T300);
-  if(t300_expired) {
-    LOG_W(NR_RRC, "Timer T300 expired! No timely response to RRCSetupRequest\n");
-    handle_t300_expiry(rrc);
-  }
+  // if(t300_expired) {
+  //   LOG_W(NR_RRC, "Timer T300 expired! No timely response to RRCSetupRequest\n");
+  //   handle_t300_expiry(rrc);
+  // }
 
   bool t301_expired = nr_timer_tick(&timers->T301);
   // Upon T301 expiry, the UE shall perform the actions upon going to RRC_IDLE
