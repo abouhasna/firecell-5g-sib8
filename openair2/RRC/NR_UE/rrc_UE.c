@@ -988,8 +988,8 @@ static int8_t nr_rrc_ue_decode_ccch(NR_UE_RRC_INST_t *rrc,
 
        case NR_DL_CCCH_MessageType__c1_PR_rrcSetup:
          LOG_I(NR_RRC, "[UE%ld][RAPROC] Logical Channel DL-CCCH (SRB0), Received NR_RRCSetup\n", rrc->ue_id);
-         nr_rrc_process_rrcsetup(rrc, dl_ccch_msg->message.choice.c1->choice.rrcSetup);
-         rval = 0;
+        //  nr_rrc_process_rrcsetup(rrc, dl_ccch_msg->message.choice.c1->choice.rrcSetup);
+        //  rval = 0;
          break;
 
        default:
