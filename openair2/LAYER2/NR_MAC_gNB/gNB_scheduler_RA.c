@@ -2011,7 +2011,7 @@ static void nr_check_Msg4_Ack(module_id_t module_id, int CC_id, frame_t frame, s
       } else {
         LOG_I(NR_MAC, "%4d.%2d UE %04x: RA Procedure failed at Msg4!\n", frame, slot, ra->rnti);
         LOG_I(NR_MAC, "fc_log:Started timer for 2ms for UE %04x to be released due to RA procedure failure at Msg4.\n", ra->rnti);
-        fc_nr_mac_trigger_ul_failure(sched_ctrl, UE->current_DL_BWP.scs,UE->rnti,2);
+        fc_nr_mac_trigger_ul_failure(sched_ctrl, UE->current_DL_BWP.scs,UE->rnti,2700);
       }
 
       // Pause scheduling according to:

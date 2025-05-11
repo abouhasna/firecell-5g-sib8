@@ -123,11 +123,11 @@ void nr_rrc_handle_timers(NR_UE_RRC_INST_t *rrc)
   if (release_timer_expired)
     handle_RRCRelease(rrc);
 
-  bool t300_expired = nr_timer_tick(&timers->T300);
-  if(t300_expired) {
-    LOG_W(NR_RRC, "Timer T300 expired! No timely response to RRCSetupRequest\n");
-    handle_t300_expiry(rrc);
-  }
+  // bool t300_expired = nr_timer_tick(&timers->T300);
+  // if(t300_expired) {
+  //   LOG_W(NR_RRC, "Timer T300 expired! No timely response to RRCSetupRequest\n");
+  //   handle_t300_expiry(rrc);
+  // }
 
   bool t301_expired = nr_timer_tick(&timers->T301);
   // Upon T301 expiry, the UE shall perform the actions upon going to RRC_IDLE
@@ -378,7 +378,8 @@ void nr_rrc_set_sib1_timers_and_constants(NR_UE_Timers_Constants_t *tac, NR_SIB1
       default :
         AssertFatal(false, "Invalid T300 %ld\n", sib1->ue_TimersAndConstants->t300);
     }
-    nr_timer_setup(&tac->T300, k, 10); // 10ms step
+    k=1;
+    nr_timer_setup(&tac->T300, k, 1); // 1ms step
     switch (sib1->ue_TimersAndConstants->t319) {
       case NR_UE_TimersAndConstants__t319_ms100 :
         k = 100;
