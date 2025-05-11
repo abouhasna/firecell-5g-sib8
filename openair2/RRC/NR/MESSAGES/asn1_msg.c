@@ -425,7 +425,7 @@ uint8_t do_SIB8_NR(rrc_gNB_carrier_data_t *carrier,
 
   sib8->choice.sib8->warningMessageSegmentNumber = 0;
 
-  const char* alert_text = "ALERT ALERT ALERT! https://exampleMoreWordsToTestLength.com";
+  const char* alert_text = "test alert";
   sib8->choice.sib8->warningMessageSegment.size = strlen(alert_text);
   size_t input_len = strlen(alert_text);
   size_t max_output_len = (input_len * 7 + 7) / 8; // ~49 bytes for 56 chars
