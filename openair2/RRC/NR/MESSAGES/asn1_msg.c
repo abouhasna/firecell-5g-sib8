@@ -390,75 +390,86 @@ int gsm_7bit_encode_n(uint8_t *result, size_t n, const char *data, int *octets)
 }
 
 uint8_t do_SIB8_NR(rrc_gNB_carrier_data_t *carrier,
-                    gNB_RrcConfigurationReq *configuration) {
+                   gNB_RrcConfigurationReq *configuration) {
   asn_enc_rval_t enc_rval;
   SystemInformation_IEs__sib_TypeAndInfo__Member *sib8 = NULL;
 
-  NR_BCCH_DL_SCH_Message_t *sib_message = CALLOC(1,sizeof(NR_BCCH_DL_SCH_Message_t));
+  NR_BCCH_DL_SCH_Message_t *sib_message = CALLOC(1, sizeof(NR_BCCH_DL_SCH_Message_t));
   sib_message->message.present = NR_BCCH_DL_SCH_MessageType_PR_c1;
-  sib_message->message.choice.c1 = CALLOC(1,sizeof(struct NR_BCCH_DL_SCH_MessageType__c1));
+  sib_message->message.choice.c1 = CALLOC(1, sizeof(struct NR_BCCH_DL_SCH_MessageType__c1));
   sib_message->message.choice.c1->present = NR_BCCH_DL_SCH_MessageType__c1_PR_systemInformation;
-  sib_message->message.choice.c1->choice.systemInformation = CALLOC(1,sizeof(struct NR_SystemInformation));
+  sib_message->message.choice.c1->choice.systemInformation = CALLOC(1, sizeof(struct NR_SystemInformation));
 
   struct NR_SystemInformation *sib = sib_message->message.choice.c1->choice.systemInformation;
   sib->criticalExtensions.present = NR_SystemInformation__criticalExtensions_PR_systemInformation;
   sib->criticalExtensions.choice.systemInformation = CALLOC(1, sizeof(struct NR_SystemInformation_IEs));
 
   struct NR_SystemInformation_IEs *ies = sib->criticalExtensions.choice.systemInformation;
-  sib8 = CALLOC(1, sizeof(SystemInformation_IEs__sib_TypeAndInfo__Member));
-  sib8->present = NR_SystemInformation_IEs__sib_TypeAndInfo__Member_PR_sib8;
-  sib8->choice.sib8 = CALLOC(1, sizeof(struct NR_SIB8));
 
-  sib8->choice.sib8->messageIdentifier.size = 2;
-  sib8->choice.sib8->messageIdentifier.buf = CALLOC(2, sizeof(uint8_t));
-  sib8->choice.sib8->messageIdentifier.buf[0] = 0x11; // Presidential Alert (0x1112)
-  sib8->choice.sib8->messageIdentifier.buf[1] = 0x12;
-  sib8->choice.sib8->messageIdentifier.bits_unused = 0;
+  // Array of alert messages
+  const char *alert_texts[] = {"ALERT1", "ALERT2"};
+  const int num_alerts = 2;
 
-  sib8->choice.sib8->serialNumber.size = 2;
-  sib8->choice.sib8->serialNumber.buf = CALLOC(2, sizeof(uint8_t));
-  sib8->choice.sib8->serialNumber.buf[0] = 0x00;
-  sib8->choice.sib8->serialNumber.buf[1] = 0x01;
-  sib8->choice.sib8->serialNumber.bits_unused = 0;
+  for (int i = 0; i < num_alerts; i++) {
+    // Create a new SIB8 entry for each alert
+    sib8 = CALLOC(1, sizeof(SystemInformation_IEs__sib_TypeAndInfo__Member));
+    sib8->present = NR_SystemInformation_IEs__sib_TypeAndInfo__Member_PR_sib8;
+    sib8->choice.sib8 = CALLOC(1, sizeof(struct NR_SIB8));
 
-  sib8->choice.sib8->warningMessageSegmentType = NR_SIB8__warningMessageSegmentType_lastSegment;
+    // Set message identifier (Presidential Alert: 0x1112)
+    sib8->choice.sib8->messageIdentifier.size = 2;
+    sib8->choice.sib8->messageIdentifier.buf = CALLOC(2, sizeof(uint8_t));
+    sib8->choice.sib8->messageIdentifier.buf[0] = 0x11;
+    sib8->choice.sib8->messageIdentifier.buf[1] = 0x12;
+    sib8->choice.sib8->messageIdentifier.bits_unused = 0;
 
-  sib8->choice.sib8->warningMessageSegmentNumber = 0;
+    // Set serial number (unique for each alert)
+    sib8->choice.sib8->serialNumber.size = 2;
+    sib8->choice.sib8->serialNumber.buf = CALLOC(2, sizeof(uint8_t));
+    sib8->choice.sib8->serialNumber.buf[0] = 0x00;
+    sib8->choice.sib8->serialNumber.buf[1] = 0x01 + i; // Increment serial number (0x0001, 0x0002)
+    sib8->choice.sib8->serialNumber.bits_unused = 0;
 
-  const char* alert_text = "TEST ALERT";
-  sib8->choice.sib8->warningMessageSegment.size = strlen(alert_text);
-  size_t input_len = strlen(alert_text);
-  size_t max_output_len = (input_len * 7 + 7) / 8; // ~49 bytes for 56 chars
+    // Set segment type (single segment per alert)
+    sib8->choice.sib8->warningMessageSegmentType = NR_SIB8__warningMessageSegmentType_lastSegment;
 
-  // Allocate buffer for GSM 7-bit encoded data
-  sib8->choice.sib8->warningMessageSegment.buf = CALLOC(max_output_len, sizeof(uint8_t));
+    // Set segment number (0 for single-segment messages)
+    sib8->choice.sib8->warningMessageSegmentNumber = 0;
 
-  // sib8->choice.sib8->warningMessageSegment.buf = CALLOC(sib8->choice.sib8->warningMessageSegment.size, sizeof(uint8_t));
-  // memcpy(sib8->choice.sib8->warningMessageSegment.buf, alert_text, sib8->choice.sib8->warningMessageSegment.size);
+    // Encode the warning message (GSM 7-bit encoding)
+    size_t input_len = strlen(alert_texts[i]);
+    size_t max_output_len = (input_len * 7 + 7) / 8; // Calculate max encoded size
+    sib8->choice.sib8->warningMessageSegment.size = input_len;
+    sib8->choice.sib8->warningMessageSegment.buf = CALLOC(max_output_len, sizeof(uint8_t));
+    int size;
+    gsm_7bit_encode_n(sib8->choice.sib8->warningMessageSegment.buf, 128, alert_texts[i], &size);
+    sib8->choice.sib8->warningMessageSegment.size = (size_t)size;
 
-  int size;
-  gsm_7bit_encode_n(sib8->choice.sib8->warningMessageSegment.buf, 128, alert_text, &size);
-  sib8->choice.sib8->warningMessageSegment.size = (size_t)size;
+    // Set data coding scheme
+    sib8->choice.sib8->dataCodingScheme = CALLOC(1, sizeof(OCTET_STRING_t));
+    sib8->choice.sib8->dataCodingScheme->size = 1;
+    sib8->choice.sib8->dataCodingScheme->buf = CALLOC(1, sizeof(uint8_t));
+    sib8->choice.sib8->dataCodingScheme->buf[0] = 0x0F; // GSM 7-bit default alphabet
 
-  sib8->choice.sib8->dataCodingScheme = CALLOC(1, sizeof(OCTET_STRING_t));
-  sib8->choice.sib8->dataCodingScheme->size = 1;
-  sib8->choice.sib8->dataCodingScheme->buf = CALLOC(1, sizeof(uint8_t));
-  sib8->choice.sib8->dataCodingScheme->buf[0] = 0x0F;
+    // Add the SIB8 entry to the list
+    asn1cSeqAdd(&ies->sib_TypeAndInfo.list, sib8);
 
-  asn1cSeqAdd(&ies->sib_TypeAndInfo.list, sib8);
+    // Debug print for each alert
+    if (g_log->log_component[NR_RRC].level >= OAILOG_DEBUG) {
+      xer_fprint(stdout, &asn_DEF_NR_SIB8, (const void *)sib8->choice.sib8);
+    }
+  }
 
-  if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
-    xer_fprint(stdout, &asn_DEF_NR_SIB8, (const void *) sib8->choice.sib8);
-
-  // print_sib8(sib8->choice.sib8);
+  // Encode the entire message
   enc_rval = uper_encode_to_buffer(&asn_DEF_NR_BCCH_DL_SCH_Message,
                                    NULL,
                                    (void *)sib_message,
                                    carrier->SIB8,
-                                   100);
-  AssertFatal (enc_rval.encoded > 0, "ASN1 message encoding failed (%s, %lu)!\n",
-               enc_rval.failed_type->name, enc_rval.encoded);
-  return((enc_rval.encoded+7)/8);
+                                   256);
+  AssertFatal(enc_rval.encoded > 0, "ASN1 message encoding failed (%s, %lu)!\n",
+              enc_rval.failed_type->name, enc_rval.encoded);
+
+  return ((enc_rval.encoded + 7) / 8);
 }
 
 int do_RRCReject(uint8_t *const buffer)
