@@ -582,7 +582,10 @@ void nr_Msg3_transmitted(NR_UE_MAC_INST_t *mac, uint8_t CC_id, frame_t frameP, s
   NR_RACH_ConfigGeneric_t *rach_ConfigGeneric = &setup->rach_ConfigGeneric;
 
   LOG_W(MAC, "Msg3 transmitted\n");
-
+  if (ra->Msg3_buffer != NULL) {
+    free(ra->Msg3_buffer);
+    ra->Msg3_buffer = NULL; // good practice to avoid dangling pointer
+  }
   init_RA(mac, &ra->prach_resources, setup, rach_ConfigGeneric, ra->rach_ConfigDedicated);
   ra->RA_RAPID_found = 0;
   ra->ra_state = nrRA_GENERATE_PREAMBLE;

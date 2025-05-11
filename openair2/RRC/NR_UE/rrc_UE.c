@@ -616,6 +616,29 @@ static int nr_decode_SI(NR_UE_RRC_SI_INFO *SI_info, NR_SystemInformation_t *si)
   return 0;
 }
 
+static void nr_rrc_ue_prepare_RRCSetupRequest(NR_UE_RRC_INST_t *rrc)
+{
+  LOG_D(NR_RRC, "Generation of RRCSetupRequest\n");
+  uint8_t rv[6];
+  // Get RRCConnectionRequest, fill random for now
+  // Generate random byte stream for contention resolution
+  printf("Random bytes for contention resolution\n");
+  for (int i = 0; i < 6; i++) {
+#ifdef SMBV
+    // if SMBV is configured the contention resolution needs to be fix for the connection procedure to succeed
+    rv[i] = i;
+#else
+    rv[i] = taus() & 0xff;
+    printf("%d ", rv[i]);
+#endif
+  }
+  printf("\n");
+  uint8_t buf[1024];
+  int len = do_RRCSetupRequest(buf, sizeof(buf), rv);
+
+  nr_rlc_srb_recv_sdu(rrc->ue_id, 0, buf, len);
+}
+
 static void nr_rrc_handle_msg3_indication(NR_UE_RRC_INST_t *rrc, rnti_t rnti)
 {
   NR_UE_Timers_Constants_t *tac = &rrc->timers_and_constants;
@@ -625,6 +648,7 @@ static void nr_rrc_handle_msg3_indication(NR_UE_RRC_INST_t *rrc, rnti_t rnti)
       rrc->rnti = rnti;
       // start timer T300
       nr_timer_start(&tac->T300);
+      nr_rrc_ue_prepare_RRCSetupRequest(rrc);
       break;
     case RRC_CONNECTION_REESTABLISHMENT:
       rrc->rnti = rnti;
@@ -666,26 +690,7 @@ static void nr_rrc_handle_msg3_indication(NR_UE_RRC_INST_t *rrc, rnti_t rnti)
   }
 }
 
-static void nr_rrc_ue_prepare_RRCSetupRequest(NR_UE_RRC_INST_t *rrc)
-{
-  LOG_D(NR_RRC, "Generation of RRCSetupRequest\n");
-  uint8_t rv[6];
-  // Get RRCConnectionRequest, fill random for now
-  // Generate random byte stream for contention resolution
-  for (int i = 0; i < 6; i++) {
-#ifdef SMBV
-    // if SMBV is configured the contention resolution needs to be fix for the connection procedure to succeed
-    rv[i] = i;
-#else
-    rv[i] = taus() & 0xff;
-#endif
-  }
 
-  uint8_t buf[1024];
-  int len = do_RRCSetupRequest(buf, sizeof(buf), rv);
-
-  nr_rlc_srb_recv_sdu(rrc->ue_id, 0, buf, len);
-}
 
 void nr_rrc_configure_default_SI(NR_UE_RRC_SI_INFO *SI_info,
                                  NR_SIB1_t *sib1)
