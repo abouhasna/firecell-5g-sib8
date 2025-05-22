@@ -584,7 +584,7 @@ void nr_Msg3_transmitted(NR_UE_MAC_INST_t *mac, uint8_t CC_id, frame_t frameP, s
   LOG_W(MAC, "Msg3 transmitted\n");
   if (ra->Msg3_buffer != NULL) {
     free(ra->Msg3_buffer);
-    ra->Msg3_buffer = NULL; // good practice to avoid dangling pointer
+    ra->Msg3_buffer = NULL;
   }
   init_RA(mac, &ra->prach_resources, setup, rach_ConfigGeneric, ra->rach_ConfigDedicated);
   ra->RA_RAPID_found = 0;
