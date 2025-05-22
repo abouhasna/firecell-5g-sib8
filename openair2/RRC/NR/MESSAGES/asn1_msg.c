@@ -426,15 +426,11 @@ uint8_t do_SIB8_NR(rrc_gNB_carrier_data_t *carrier,
   sib8->choice.sib8->warningMessageSegmentNumber = 0;
 
   const char* alert_text = "test alert";
-  sib8->choice.sib8->warningMessageSegment.size = strlen(alert_text);
   size_t input_len = strlen(alert_text);
-  size_t max_output_len = (input_len * 7 + 7) / 8; // ~49 bytes for 56 chars
+  size_t max_output_len = (input_len * 7 + 7) / 8;
+  sib8->choice.sib8->warningMessageSegment.size = max_output_len;
 
-  // Allocate buffer for GSM 7-bit encoded data
   sib8->choice.sib8->warningMessageSegment.buf = CALLOC(max_output_len, sizeof(uint8_t));
-
-  // sib8->choice.sib8->warningMessageSegment.buf = CALLOC(sib8->choice.sib8->warningMessageSegment.size, sizeof(uint8_t));
-  // memcpy(sib8->choice.sib8->warningMessageSegment.buf, alert_text, sib8->choice.sib8->warningMessageSegment.size);
 
   int size;
   gsm_7bit_encode_n(sib8->choice.sib8->warningMessageSegment.buf, 128, alert_text, &size);
@@ -450,12 +446,72 @@ uint8_t do_SIB8_NR(rrc_gNB_carrier_data_t *carrier,
   if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
     xer_fprint(stdout, &asn_DEF_NR_SIB8, (const void *) sib8->choice.sib8);
 
-  // print_sib8(sib8->choice.sib8);
+  SystemInformation_IEs__sib_TypeAndInfo__Member *sib6 = CALLOC(1, sizeof(SystemInformation_IEs__sib_TypeAndInfo__Member));
+  sib6->present = NR_SystemInformation_IEs__sib_TypeAndInfo__Member_PR_sib6;
+  sib6->choice.sib6 = CALLOC(1, sizeof(struct NR_SIB6));
+                      
+  sib6->choice.sib6->messageIdentifier.size = 2;
+  sib6->choice.sib6->messageIdentifier.buf = CALLOC(2, sizeof(uint8_t));
+  sib6->choice.sib6->messageIdentifier.buf[0] = 0x11;
+  sib6->choice.sib6->messageIdentifier.buf[1] = 0x01;
+                      
+  sib6->choice.sib6->serialNumber.size = 2;
+  sib6->choice.sib6->serialNumber.buf = CALLOC(2, sizeof(uint8_t));
+  sib6->choice.sib6->serialNumber.buf[0] = 0x00;
+  sib6->choice.sib6->serialNumber.buf[1] = 0x02;
+                      
+  sib6->choice.sib6->warningType.size = 2;
+  sib6->choice.sib6->warningType.buf = CALLOC(2, sizeof(uint8_t));
+  sib6->choice.sib6->warningType.buf[0] = 0x01;
+  sib6->choice.sib6->warningType.buf[1] = 0xFF; 
+
+  asn1cSeqAdd(&ies->sib_TypeAndInfo.list, sib6);
+
+  if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
+      xer_fprint(stdout, &asn_DEF_NR_SIB6, (const void *) sib6->choice.sib6);
+
+  SystemInformation_IEs__sib_TypeAndInfo__Member *sib7 = CALLOC(1, sizeof(SystemInformation_IEs__sib_TypeAndInfo__Member));
+  sib7->present = NR_SystemInformation_IEs__sib_TypeAndInfo__Member_PR_sib7;
+  sib7->choice.sib7 = CALLOC(1, sizeof(struct NR_SIB7));
+
+  sib7->choice.sib7->messageIdentifier.size = 2;
+  sib7->choice.sib7->messageIdentifier.buf = CALLOC(2, sizeof(uint8_t));
+  sib7->choice.sib7->messageIdentifier.buf[0] = 0x11;
+  sib7->choice.sib7->messageIdentifier.buf[1] = 0x01;
+
+  sib7->choice.sib7->serialNumber.size = 2;
+  sib7->choice.sib7->serialNumber.buf = CALLOC(2, sizeof(uint8_t));
+  sib7->choice.sib7->serialNumber.buf[0] = 0x00;
+  sib7->choice.sib7->serialNumber.buf[1] = 0x03;
+
+  sib7->choice.sib7->warningMessageSegmentType = NR_SIB7__warningMessageSegmentType_lastSegment;
+  sib7->choice.sib7->warningMessageSegmentNumber = 0;
+
+  const char *alert_msg = "SIB7 warning TEST";
+  size_t input_len7 = strlen(alert_msg);
+  size_t max_output_len7 = (input_len7 * 7 + 7) / 8;
+  sib7->choice.sib7->warningMessageSegment.size = max_output_len7;
+  sib7->choice.sib7->warningMessageSegment.buf = CALLOC(max_output_len7, sizeof(uint8_t));
+  int size7;
+  gsm_7bit_encode_n(sib7->choice.sib7->warningMessageSegment.buf, 128, alert_msg, &size7);
+  sib7->choice.sib7->warningMessageSegment.size = size7;
+
+  sib7->choice.sib7->dataCodingScheme = CALLOC(1, sizeof(OCTET_STRING_t));
+  sib7->choice.sib7->dataCodingScheme->size = 1;
+  sib7->choice.sib7->dataCodingScheme->buf = CALLOC(1, sizeof(uint8_t));
+  sib7->choice.sib7->dataCodingScheme->buf[0] = 0x0F;
+
+  asn1cSeqAdd(&ies->sib_TypeAndInfo.list, sib7);
+  if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
+      xer_fprint(stdout, &asn_DEF_NR_SIB7, (const void *) sib7->choice.sib7);
+      
   enc_rval = uper_encode_to_buffer(&asn_DEF_NR_BCCH_DL_SCH_Message,
                                    NULL,
                                    (void *)sib_message,
                                    carrier->SIB8,
                                    100);
+
+  
   AssertFatal (enc_rval.encoded > 0, "ASN1 message encoding failed (%s, %lu)!\n",
                enc_rval.failed_type->name, enc_rval.encoded);
   return((enc_rval.encoded+7)/8);

@@ -2375,8 +2375,15 @@ NR_BCCH_DL_SCH_Message_t *get_SIB1_NR(const NR_ServingCellConfigCommon_t *scc,
 
   NR_SIB_TypeInfo_t *sib_type8 = CALLOC(1,sizeof(e_NR_SIB_TypeInfo__type));
   sib_type8->type = NR_SIB_TypeInfo__type_sibType8;
-  sib_type8->valueTag = calloc(1, sizeof(*sib_type8->valueTag));
   asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list,sib_type8);
+
+  NR_SIB_TypeInfo_t *sib_type6 = CALLOC(1, sizeof(NR_SIB_TypeInfo_t));
+  sib_type6->type = NR_SIB_TypeInfo__type_sibType6;
+  asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list, sib_type6);
+  
+  NR_SIB_TypeInfo_t *sib_type7 = CALLOC(1, sizeof(NR_SIB_TypeInfo_t));
+  sib_type7->type = NR_SIB_TypeInfo__type_sibType7;
+  asn1cSeqAdd(&schedulingInfo->sib_MappingInfo.list, sib_type7);
 
   asn1cSeqAdd(&sib1->si_SchedulingInfo->schedulingInfoList.list,schedulingInfo);
 

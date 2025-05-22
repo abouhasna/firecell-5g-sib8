@@ -550,6 +550,8 @@ static int nr_decode_SI(NR_UE_RRC_SI_INFO *SI_info, NR_SystemInformation_t *si)
         if(!SI_info->sib6)
           SI_info->sib6 = calloc(1, sizeof(*SI_info->sib6));
         memcpy(SI_info->sib6, typeandinfo->choice.sib6, sizeof(NR_SIB6_t));
+        if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
+          xer_fprint(stdout, &asn_DEF_NR_SIB6, (const void *) SI_info->sib6);
         nr_timer_start(&SI_info->sib6_timer);
         break;
 
@@ -557,6 +559,8 @@ static int nr_decode_SI(NR_UE_RRC_SI_INFO *SI_info, NR_SystemInformation_t *si)
         if(!SI_info->sib7)
           SI_info->sib7 = calloc(1, sizeof(*SI_info->sib7));
         memcpy(SI_info->sib7, typeandinfo->choice.sib7, sizeof(NR_SIB7_t));
+        if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
+          xer_fprint(stdout, &asn_DEF_NR_SIB7, (const void *) SI_info->sib7);
         nr_timer_start(&SI_info->sib7_timer);
         break;
 
